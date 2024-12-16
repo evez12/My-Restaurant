@@ -26,6 +26,7 @@ public class Cart {
     @Column(name = "total_amount")
     BigDecimal totalAmount = BigDecimal.ZERO;
 
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     Customer customer;

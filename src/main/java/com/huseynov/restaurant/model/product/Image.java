@@ -20,6 +20,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+
     @Column(name = "file_name")
     String fileName;
 

@@ -24,6 +24,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     OrderStatus orderStatus;

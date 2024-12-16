@@ -22,6 +22,7 @@ public class CartItem {
     Long id;
     int quantity;
 
+
     @Column(name = "unit_price")
     BigDecimal unitPrice = BigDecimal.ZERO;
 

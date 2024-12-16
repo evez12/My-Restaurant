@@ -21,12 +21,14 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+
     int quantity;
     BigDecimal price = BigDecimal.ZERO;
 
     @OneToOne()
     @JoinColumn(name = "product_id")
     Product product;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.DETACH})

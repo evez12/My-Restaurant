@@ -23,6 +23,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+
     @NaturalId
     String name;
 
