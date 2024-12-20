@@ -45,11 +45,13 @@ public class Customer {
             CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "role_id")
     Role role; // Customer's role is "CUSTOMER" (always)
+
     /*
     //    {
     //        role.setId(1L);
     //    }
     */
+
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     Cart cart;
 

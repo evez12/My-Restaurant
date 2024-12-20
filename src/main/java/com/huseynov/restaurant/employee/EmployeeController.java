@@ -13,12 +13,12 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    @GetMapping("/all-employees")
+    @GetMapping("/employees")
     public List<EmployeeDTO> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping("/all-employees-with-detail")
+    @GetMapping("/employees-with-detail")
     public List<EmployeeWithDetailDTO> getAllEmployeesWithDetail() {
         return employeeService.getAllEmployeesWithDetail();
     }
