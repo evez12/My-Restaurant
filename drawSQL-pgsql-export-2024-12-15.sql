@@ -232,7 +232,7 @@ ALTER TABLE
 ALTER TABLE
     "reservation" ADD CONSTRAINT "reservation_customer_id_foreign" FOREIGN KEY("customer_id") REFERENCES "customer"("id");
 ALTER TABLE
-    "role" ADD CONSTRAINT "role_id_foreign" FOREIGN KEY("id") REFERENCES "customer"("id");
+	"customer" ADD CONSTRAINT "customer_role_id_foreign" FOREIGN KEY ("role_id") REFERENCES "role"("id");
 ALTER TABLE
     "cart" ADD CONSTRAINT "cart_customer_id_foreign" FOREIGN KEY("customer_id") REFERENCES "customer"("id");
 ALTER TABLE
