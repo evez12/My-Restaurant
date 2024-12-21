@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.order.model;
+package com.huseynov.restaurant.order;
 
 import com.huseynov.restaurant.product.Product;
 import jakarta.persistence.*;

@@ -11,15 +11,20 @@ import org.hibernate.annotations.NaturalId;
 
 import java.util.Set;
 
+@Entity
+@Table(name = "employee")
 @Getter
 @Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
-@Table(name = "employee")
-//@NamedEntityGraph(
-//        name = "Employee.fetchemployeeDetail"
-//)
+
+// For N + 1 Problem
+@NamedEntityGraphs(value = {
+        @NamedEntityGraph(
+                name = "employee-detail",
+                attributeNodes = @NamedAttributeNode("employeeDetail")
+        )
+})
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,15 +37,45 @@ public class Employee {
     String email;
     String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(name = "employee_role",
+    @Version
+    Long version;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}
+    )
+    @JoinTable(
+            name = "employee_role",
             joinColumns = @JoinColumn(name = "employee_id"),
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
     Set<Role> roles;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "employee",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     EmployeeDetail employeeDetail;
+
+    public void setEmployeeDetail(EmployeeDetail employeeDetail) {
+        this.employeeDetail = employeeDetail;
+        if (employeeDetail != null) {
+            employeeDetail.setEmployee(this);
+        }
+    }
+
+//    public Employee(String name, String surname, String email, String password, EmployeeDetail employeeDetail) {
+//        this.name = name;
+//        this.surname = surname;
+//        this.email = email;
+//        this.password = password;
+//        this.employeeDetail = employeeDetail;
+//    }
+//
+//    public Employee(String name, String surname, String email, String password) {
+//        this.name = name;
+//        this.surname = surname;
+//        this.email = email;
+//        this.password = password;
+//    }
 
     @Override
     public String toString() {

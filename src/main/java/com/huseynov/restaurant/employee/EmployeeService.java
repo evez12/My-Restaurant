@@ -3,10 +3,9 @@ package com.huseynov.restaurant.employee;
 import java.util.List;
 
 public interface EmployeeService {
+    EmployeeResponse createEmployee(CreateEmployeeRequest request);
 
-    List<EmployeeDTO> getAllEmployees();
+    List<EmployeeResponse> getAllEmployees();
 
-    List<EmployeeWithDetailDTO> getAllEmployeesWithDetail();
-
-    Employee getEmployeeById(Long id);
+    EmployeeResponse getEmployeeById(Long id);
 }

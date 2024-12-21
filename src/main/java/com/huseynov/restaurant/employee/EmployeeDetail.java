@@ -21,19 +21,23 @@ public class EmployeeDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String address;
-    boolean enabled;
+    boolean enabled=Boolean.TRUE;
 
     @Enumerated(EnumType.STRING)
-    Gender gender;
+    Gender gender=Gender.UNDEFINED;
     BigDecimal salary = BigDecimal.ZERO;
 
-    @Column(unique = true, name = "phone_number")
+    @Column(name = "phone_number")
     String phoneNumber;
 
-    @OneToOne(cascade = {CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REFRESH})
+    @Version
+    Long version;
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "employee_id")
     Employee employee;
+
 
     @Override
     public String toString() {

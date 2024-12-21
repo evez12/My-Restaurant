@@ -1,7 +1,7 @@
 package com.huseynov.restaurant.customer;
 
-import com.huseynov.restaurant.order.model.Cart;
-import com.huseynov.restaurant.order.model.Order;
+import com.huseynov.restaurant.cart.Cart;
+import com.huseynov.restaurant.order.Order;
 import com.huseynov.restaurant.reservation.Reservation;
 import com.huseynov.restaurant.shared.enums.Gender;
 import com.huseynov.restaurant.shared.security.role.Role;
@@ -35,10 +35,10 @@ public class Customer {
     @Column(name = "phone_number")
     String phoneNumber;
     String address;
-    boolean enabled;
+    boolean enabled=Boolean.TRUE;
 
     @Enumerated(EnumType.STRING)
-    Gender gender;
+    Gender gender=Gender.UNDEFINED;
 
     @Enumerated(EnumType.STRING)
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE,

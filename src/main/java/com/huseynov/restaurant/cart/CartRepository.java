@@ -1,6 +1,5 @@
-package com.huseynov.restaurant.order.repo;
+package com.huseynov.restaurant.cart;
 
-import com.huseynov.restaurant.order.model.Cart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
