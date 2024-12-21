@@ -23,6 +23,7 @@ public class EmployeeDetail {
     String address;
     boolean enabled=Boolean.TRUE;
 
+
     @Enumerated(EnumType.STRING)
     Gender gender=Gender.UNDEFINED;
     BigDecimal salary = BigDecimal.ZERO;
