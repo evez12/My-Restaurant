@@ -21,7 +21,7 @@ public class EmployeeResponse {
     String surname;
     String email;
     String address;
-    Gender gender = Gender.OTHER;
+    Gender gender = Gender.UNDEFINED;
     BigDecimal salary = BigDecimal.ZERO;
     String phoneNumber;
 

@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "employee_detail")
-public class EmployeeDetail {
+class EmployeeDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

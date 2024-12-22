@@ -1,14 +1,13 @@
 package com.huseynov.restaurant.employee;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.huseynov.restaurant.shared.dto.request.CreateUserRequest;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class EmployeeMapperConfig {
+class EmployeeMapperConfig {
     private final ModelMapper modelMapper;
 
     public EmployeeMapperConfig(ModelMapper modelMapper) {
@@ -33,8 +32,8 @@ public class EmployeeMapperConfig {
             }
         });
 
-        // Define the mapping for Employee to EmployeeResponse
-        modelMapper.addMappings(new PropertyMap<CreateEmployeeRequest, Employee>() {
+        // Define the mapping for EmployeeRequest to Employee
+        modelMapper.addMappings(new PropertyMap<CreateUserRequest, Employee>() {
             @Override
             protected void configure() {
                 map().setName(source.getName());
@@ -66,16 +65,8 @@ public class EmployeeMapperConfig {
         return modelMapper.map(employeeResponse, Employee.class);
     }
 
-    public Employee convertDtoToEntity(CreateEmployeeRequest employeeRequest) {
+    public Employee convertDtoToEntity(CreateUserRequest employeeRequest) {
         return modelMapper.map(employeeRequest, Employee.class);
     }
 
-    public String jsonAsString(Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

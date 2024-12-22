@@ -18,14 +18,14 @@ import java.util.Set;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
-// For N + 1 Problem
+// For N + 1 query problem
 @NamedEntityGraphs(value = {
         @NamedEntityGraph(
                 name = "employee-detail",
                 attributeNodes = @NamedAttributeNode("employeeDetail")
         )
 })
-public class Employee {
+class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -61,21 +61,6 @@ public class Employee {
             employeeDetail.setEmployee(this);
         }
     }
-
-//    public Employee(String name, String surname, String email, String password, EmployeeDetail employeeDetail) {
-//        this.name = name;
-//        this.surname = surname;
-//        this.email = email;
-//        this.password = password;
-//        this.employeeDetail = employeeDetail;
-//    }
-//
-//    public Employee(String name, String surname, String email, String password) {
-//        this.name = name;
-//        this.surname = surname;
-//        this.email = email;
-//        this.password = password;
-//    }
 
     @Override
     public String toString() {

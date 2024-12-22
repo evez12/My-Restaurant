@@ -1,20 +1,20 @@
 package com.huseynov.restaurant.employee;
 
+import com.huseynov.restaurant.shared.dto.request.CreateUserRequest;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
-import com.huseynov.restaurant.shared.enums.StatusMessage;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @CrossOrigin
 @RestController()
 @RequestMapping("${api.prefix}/employees")
-public class EmployeeController {
+class EmployeeController {
 
+    private static final String SUCCESS_MESSAGE = "SUCCESS";
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
@@ -22,22 +22,27 @@ public class EmployeeController {
     }
 
     @PostMapping("")
-    ResponseEntity<ApiResponse<EmployeeResponse>> createEmployee(@Valid @RequestBody CreateEmployeeRequest request) {
+    ResponseEntity<ApiResponse<EmployeeResponse>> createEmployee(@RequestBody @Valid CreateUserRequest request) {
         EmployeeResponse employee = employeeService.createEmployee(request);
 
-        ApiResponse<EmployeeResponse> response = ApiResponse
-                .<EmployeeResponse>builder()
-                .status(StatusMessage.SUCCESS.toString())
+//        Builder Design pattern have been used
+        ApiResponse<EmployeeResponse> response = ApiResponse.<EmployeeResponse>builder()
+                .status(SUCCESS_MESSAGE)
                 .results(employee)
                 .build();
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(employee.getEmployeeId())
-                .toUri();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 
-        return ResponseEntity.created(location).body(response);
+    @GetMapping("/{id}")
+    ResponseEntity<ApiResponse<EmployeeResponse>> getEmployeeById(@PathVariable Long id) {
+        EmployeeResponse employee = employeeService.getEmployeeById(id);
+
+        ApiResponse<EmployeeResponse> response = ApiResponse.<EmployeeResponse>builder()
+                .status(SUCCESS_MESSAGE)
+                .results(employee)
+                .build();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("")
@@ -45,10 +50,10 @@ public class EmployeeController {
         List<EmployeeResponse> employees = employeeService.getAllEmployees();
 
         ApiResponse<List<EmployeeResponse>> response = ApiResponse.<List<EmployeeResponse>>builder()
-                .status(StatusMessage.SUCCESS.toString())
+                .status(SUCCESS_MESSAGE)
                 .results(employees)
                 .build();
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
 }

@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class EmployeeDTO {
+class EmployeeDTO {
     Long employeeId;
     String name;
     String surname;
