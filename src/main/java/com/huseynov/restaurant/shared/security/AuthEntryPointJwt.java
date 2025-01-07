@@ -1,8 +1,7 @@
 package com.huseynov.restaurant.shared.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.huseynov.restaurant.shared.dto.ErrorDTO;
-import com.huseynov.restaurant.shared.dto.response.ApiResponse;
+import com.huseynov.restaurant.shared.dto.error.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
-import java.util.Collections;
 
 
 @Configuration
@@ -30,14 +28,11 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        ApiResponse<String> body = new ApiResponse<>();
-        body.setStatus(HttpStatus.UNAUTHORIZED.toString());
-        ErrorDTO error = new ErrorDTO("path: " + request.getServletPath(), authException.getMessage());
-
-        body.setErrors(Collections.singletonList(error));
-
+        ApiError error = new ApiError(HttpStatus.UNAUTHORIZED,
+                "path: " + request.getServletPath() + "\n" + authException.getMessage(),
+                authException);
 
         final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), body);
+        mapper.writeValue(response.getOutputStream(), error);
     }
 }

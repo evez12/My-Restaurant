@@ -1,7 +1,7 @@
 package com.huseynov.restaurant.shared.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.huseynov.restaurant.shared.dto.ErrorDTO;
+import com.huseynov.restaurant.shared.dto.error.ApiError;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,8 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ApiResponse<T> {
     String status;
-    List<ErrorDTO> errors;
+    List<ApiError> errors;
     T results;
-
 
 }

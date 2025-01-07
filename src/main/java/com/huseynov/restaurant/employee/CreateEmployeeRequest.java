@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.shared.dto.request;
+package com.huseynov.restaurant.employee;
 
 import com.huseynov.restaurant.shared.enums.Gender;
 import jakarta.validation.constraints.Min;
@@ -10,7 +10,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class CreateUserRequest {
+public class CreateEmployeeRequest {
 
     @NotBlank(message = "Name shouldn't be empty")
     String name;
