@@ -1,6 +1,6 @@
 package com.huseynov.restaurant.employee;
 
-import com.huseynov.restaurant.shared.security.role.Role;
+import com.huseynov.restaurant.shared.model.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,9 +23,9 @@ import java.util.Set;
         @NamedEntityGraph(
                 name = "employee-detail",
                 attributeNodes = @NamedAttributeNode("employeeDetail")
-        )
+        ),
 })
-class Employee {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

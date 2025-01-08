@@ -1,8 +1,9 @@
 package com.huseynov.restaurant.employee;
 
-import com.huseynov.restaurant.shared.dto.request.CreateUserRequest;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
+import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @CrossOrigin
 @RestController()
 @RequestMapping("${api.prefix}/employees")
+@Slf4j
 class EmployeeController {
 
     private static final String SUCCESS_MESSAGE = "SUCCESS";
@@ -22,15 +24,16 @@ class EmployeeController {
     }
 
     @PostMapping("")
-    ResponseEntity<ApiResponse<EmployeeResponse>> createEmployee(@RequestBody @Valid CreateUserRequest request) {
-        EmployeeResponse employee = employeeService.createEmployee(request);
+    ResponseEntity<ApiResponse<RegisterResponse>> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) {
+        log.info("EmployeeController::createEmployee request body {}", request);
 
+        RegisterResponse employee = employeeService.createEmployee(request);
 //        Builder Design pattern have been used
-        ApiResponse<EmployeeResponse> response = ApiResponse.<EmployeeResponse>builder()
+        ApiResponse<RegisterResponse> response = ApiResponse.<RegisterResponse>builder()
                 .status(SUCCESS_MESSAGE)
                 .results(employee)
                 .build();
-
+        log.info("EmployeeController::createEmployee employee {}", employee);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

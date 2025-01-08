@@ -1,8 +1,7 @@
-package com.huseynov.restaurant.shared.config;
+package com.huseynov.restaurant.security;
 
-import com.huseynov.restaurant.shared.security.AuthEntryPointJwt;
-import com.huseynov.restaurant.shared.security.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,17 +26,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter authTokenFilter;
+    @Value("${api.prefix}")
+    private String apiPrefix;  // "/api/v1"
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
                 request
-                        .requestMatchers("/hello").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // for pre-flight request
-                        .requestMatchers("/signin").permitAll()
-                        .requestMatchers("/signup").permitAll()
-                        .requestMatchers("/user", "/profile").hasAuthority("USER")
-                        .requestMatchers("/manager").hasAuthority("MANAGER")
+                        .requestMatchers(apiPrefix + "/hello").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, apiPrefix + "/**").permitAll() // for pre-flight request
+                        .requestMatchers(apiPrefix + "/auth/**").permitAll()
+                        .requestMatchers(apiPrefix + "/user", "/profile").hasAuthority("USER")
+                        .requestMatchers(apiPrefix + "/manager").hasAuthority("MANAGER")
                         .requestMatchers("/**").hasAuthority("ADMIN") // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated
         );

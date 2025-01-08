@@ -1,7 +1,7 @@
 package com.huseynov.restaurant.shared.exception;
 
-import com.huseynov.restaurant.shared.dto.ErrorDTO;
-import com.huseynov.restaurant.shared.dto.response.ApiResponse;
+import com.huseynov.restaurant.shared.dto.error.ApiError;
+import com.huseynov.restaurant.shared.dto.error.ApiValidationError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,25 +14,23 @@ import java.util.List;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    private static final String FAILED_MESSAGE = "FAILED";
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiResponse<List<ErrorDTO>> handleMethodArgumentException(MethodArgumentNotValidException exception) {
-        ApiResponse<List<ErrorDTO>> response = new ApiResponse<>();
-        log.warn("MethodArgumentNotValidException: {}", exception.getMessage());
-        // added field and message to the ErrorDTO
-        // added ErrorDTO to the List
-        List<ErrorDTO> errors = exception
+    public ApiError handleMethodArgumentException(MethodArgumentNotValidException exception) {
+        log.error("MethodArgumentNotValidException: {}", exception.getMessage());
+        ApiError response = new ApiError(HttpStatus.BAD_REQUEST, "Validation error", exception);
+        List<ApiValidationError> errors = exception
                 .getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> new ErrorDTO(error.getField(), error.getDefaultMessage()))
+                .map(error -> new ApiValidationError(error.getField(), error.getDefaultMessage(), error.getRejectedValue()))
                 .toList();
 
-        response.setStatus(FAILED_MESSAGE);
-        response.setErrors(errors);
-        log.warn("MethodArgumentNotValidException response: {}", response);
+        response.getSubErrors().addAll(errors);
+
+        log.error("MethodArgumentNotValidException response: {}", response);
         return response;
     }
 

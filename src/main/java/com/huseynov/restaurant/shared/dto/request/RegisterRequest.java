@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
     @NotBlank(message = "Email is required")
-    @Size(min = 3, max = 100, message = "Email must be between 3 and 100 characters")
+    @Size(min = 3, max = 120, message = "Email must be between 3 and 120 characters")
     @Pattern(regexp = "^(.+)@(.+)$", message = "Invalid email")
     private String email;
 
@@ -22,6 +22,7 @@ public class RegisterRequest {
     private String password;
 
     private String name;
+    private String surname;
     private String gender = Gender.UNDEFINED.toString();
 
 

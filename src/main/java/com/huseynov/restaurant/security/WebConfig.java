@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.shared.config;
+package com.huseynov.restaurant.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

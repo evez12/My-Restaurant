@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.shared.security;
+package com.huseynov.restaurant.security;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

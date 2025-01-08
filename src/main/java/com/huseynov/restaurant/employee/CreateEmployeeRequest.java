@@ -6,10 +6,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 
 @Data
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class CreateEmployeeRequest {
 
     @NotBlank(message = "Name shouldn't be empty")
@@ -17,6 +19,9 @@ public class CreateEmployeeRequest {
 
     @NotBlank(message = "Surname shouldn't be empty")
     String surname;
+
+    @NotBlank(message = "Role shouldn't be empty")
+    String role = "EMPLOYEE";
 
     @NotBlank(message = "Email shouldn't be empty")
     @Size(min = 3, max = 100, message = "Email must be between 3 and 100 characters")

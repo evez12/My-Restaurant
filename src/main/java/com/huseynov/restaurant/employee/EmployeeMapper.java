@@ -1,16 +1,15 @@
 package com.huseynov.restaurant.employee;
 
-import com.huseynov.restaurant.shared.dto.request.CreateUserRequest;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-class EmployeeMapperConfig {
+class EmployeeMapper {
     private final ModelMapper modelMapper;
 
-    public EmployeeMapperConfig(ModelMapper modelMapper) {
+    public EmployeeMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
@@ -33,7 +32,7 @@ class EmployeeMapperConfig {
         });
 
         // Define the mapping for EmployeeRequest to Employee
-        modelMapper.addMappings(new PropertyMap<CreateUserRequest, Employee>() {
+        modelMapper.addMappings(new PropertyMap<CreateEmployeeRequest, Employee>() {
             @Override
             protected void configure() {
                 map().setName(source.getName());
@@ -65,7 +64,7 @@ class EmployeeMapperConfig {
         return modelMapper.map(employeeResponse, Employee.class);
     }
 
-    public Employee convertDtoToEntity(CreateUserRequest employeeRequest) {
+    public Employee convertDtoToEntity(CreateEmployeeRequest employeeRequest) {
         return modelMapper.map(employeeRequest, Employee.class);
     }
 

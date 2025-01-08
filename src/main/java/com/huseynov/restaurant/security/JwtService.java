@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.shared.security;
+package com.huseynov.restaurant.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

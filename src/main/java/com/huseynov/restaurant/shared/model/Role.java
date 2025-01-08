@@ -1,6 +1,5 @@
-package com.huseynov.restaurant.shared.security.role;
+package com.huseynov.restaurant.shared.model;
 
-import com.huseynov.restaurant.shared.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,10 +16,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Enumerated(EnumType.STRING)
-    UserRole name;
+    @Column(name = "name", unique = true, nullable = false)
+    String name;
 
-    public Role(UserRole name) {
+    public Role(String name) {
         this.name = name;
     }
 
@@ -28,7 +27,7 @@ public class Role {
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", name=" + name.toString() +
+                ", name=" +
                 '}';
     }
 }

@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "employee_detail")
-class EmployeeDetail {
+public class EmployeeDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -43,7 +43,7 @@ class EmployeeDetail {
     @Override
     public String toString() {
         return "EmployeeDetail{" +
-                "id=" + id +
+                "detailId=" + id +
                 ", address='" + address + '\'' +
                 ", enabled=" + enabled +
                 ", gender=" + gender +

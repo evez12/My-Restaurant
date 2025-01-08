@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.shared.security;
+package com.huseynov.restaurant.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huseynov.restaurant.shared.dto.error.ApiError;
@@ -12,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
-
 
 @Configuration
 @Slf4j
@@ -29,7 +28,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         ApiError error = new ApiError(HttpStatus.UNAUTHORIZED,
-                "path: " + request.getServletPath() + "\n" + authException.getMessage(),
+                "path: " + request.getServletPath() + "; " + authException.getMessage(),
                 authException);
 
         final ObjectMapper mapper = new ObjectMapper();
