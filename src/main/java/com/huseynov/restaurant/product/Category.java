@@ -21,8 +21,11 @@ public class Category {
     Long id;
     String name;
 
-//    @JsonIgnore
-    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
+    //    @JsonIgnore
+    @OneToMany(mappedBy = "category",
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
     List<Product> products;
 
     @Override

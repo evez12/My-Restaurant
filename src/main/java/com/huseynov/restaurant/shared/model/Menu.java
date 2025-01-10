@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,10 +22,12 @@ public class Menu {
     Long id;
     String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(name = "menu_product",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "menu_id"))
-    Product products;
+    @JoinTable(
+            name = "menu_product",
+            joinColumns = @JoinColumn(name = "menu_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    Set<Product> products;
 }

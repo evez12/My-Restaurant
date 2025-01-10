@@ -30,7 +30,9 @@ public class Product {
     int inventory;
     BigDecimal price = BigDecimal.ZERO;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY
+            , cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "category_id")
     Category category;
 
@@ -44,5 +46,17 @@ public class Product {
         this.inventory = inventory;
         this.price = price;
         this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "category=" + category +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", inventory=" + inventory +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

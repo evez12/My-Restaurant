@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter authTokenFilter;
-
+    private static final String ROLE_MANAGER="MANAGER";
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
@@ -34,8 +34,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/user", "/api/v1/profile").hasAuthority("USER")
                         .requestMatchers("/api/v1/customer/**").hasAuthority("CUSTOMER")
                         .requestMatchers("/api/v1/employee/**").hasAuthority("EMPLOYEE")
-                        .requestMatchers("/api/v1/manager/**").hasAuthority("MANAGER")
-                        .requestMatchers("/api/v1/categories/**").hasAuthority("MANAGER")
+                        .requestMatchers("/api/v1/manager/**").hasAuthority(ROLE_MANAGER)
+                        .requestMatchers("/api/v1/categories/**").hasAuthority(ROLE_MANAGER)
+                        .requestMatchers("/api/v1/products/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/employees/**").hasAuthority("ADMIN")
                         .requestMatchers("/**").hasAuthority("ADMIN")   // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated

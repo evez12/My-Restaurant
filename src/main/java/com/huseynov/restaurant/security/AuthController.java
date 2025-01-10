@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final RouterService routerService;
 
-    @PostMapping("/signin")
+    @PostMapping("/sign-in")
     ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
         log.info("AuthController::login request body {}", request);
 
         LoginResponse loginResponse = routerService.login(request);
         ApiResponse<LoginResponse> response = ApiResponse.<LoginResponse>builder()
-                .status("success")
+                .status("Sign-in successfully")
                 .results(loginResponse)
                 .build();
 
@@ -33,13 +33,13 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/sign-up")
     ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterRequest request) {
         log.info("AuthController::register request body {}", request);
 
         RegisterResponse registerResponse = routerService.register(request);
         ApiResponse<RegisterResponse> response = ApiResponse.<RegisterResponse>builder()
-                .status("success")
+                .status("Customer registered successfully")
                 .results(registerResponse)
                 .build();
 

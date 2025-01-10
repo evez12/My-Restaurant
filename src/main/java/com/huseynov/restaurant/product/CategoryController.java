@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryController {
-    private static final String SUCCESS_MESSAGE = "SUCCESS";
     private final CategoryService categoryService;
 
     @PostMapping("/")
@@ -25,7 +24,7 @@ public class CategoryController {
         CategoryDTO category = categoryService.createCategory(categoryDTO);
 
         ApiResponse<CategoryDTO> response = ApiResponse.<CategoryDTO>builder()
-                .status(SUCCESS_MESSAGE)
+                .status("Category created successfully")
                 .results(category)
                 .build();
 
@@ -40,7 +39,7 @@ public class CategoryController {
         List<CategoryDTO> categories = categoryService.getCategories();
 
         ApiResponse<List<CategoryDTO>> response = ApiResponse.<List<CategoryDTO>>builder()
-                .status(SUCCESS_MESSAGE)
+                .status("All Categories found successfully")
                 .results(categories)
                 .build();
 
@@ -55,7 +54,7 @@ public class CategoryController {
         CategoryDTO category = categoryService.getCategoryById(id);
 
         ApiResponse<CategoryDTO> response = ApiResponse.<CategoryDTO>builder()
-                .status(SUCCESS_MESSAGE)
+                .status("Category found successfully")
                 .results(category)
                 .build();
 
@@ -70,7 +69,7 @@ public class CategoryController {
         CategoryDTO category = categoryService.updateCategory(id, categoryDTO);
 
         ApiResponse<CategoryDTO> response = ApiResponse.<CategoryDTO>builder()
-                .status(SUCCESS_MESSAGE)
+                .status("Category updated successfully")
                 .results(category)
                 .build();
 
@@ -85,7 +84,7 @@ public class CategoryController {
         CategoryDTO category = categoryService.deleteCategoryById(id);
 
         ApiResponse<CategoryDTO> response = ApiResponse.<CategoryDTO>builder()
-                .status(SUCCESS_MESSAGE)
+                .status("Category deleted successfully")
                 .results(category)
                 .build();
 

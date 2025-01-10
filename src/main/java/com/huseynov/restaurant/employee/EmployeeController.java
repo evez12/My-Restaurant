@@ -16,7 +16,6 @@ import java.util.List;
 @Slf4j(topic = "EMPLOYEE_CONTROLLER")
 class EmployeeController {
 
-    private static final String SUCCESS_MESSAGE = "SUCCESS";
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
@@ -31,7 +30,7 @@ class EmployeeController {
         RegisterResponse employee = employeeService.createEmployee(request);
 //        Builder Design pattern have been used
         ApiResponse<RegisterResponse> response = ApiResponse.<RegisterResponse>builder()
-                .status(SUCCESS_MESSAGE)
+                .status("Employee created successfully")
                 .results(employee)
                 .build();
         log.info("EmployeeController::createEmployee response employee, {}", employee);
@@ -48,7 +47,7 @@ class EmployeeController {
         EmployeeResponse employee = employeeService.getEmployeeById(id);
 
         ApiResponse<EmployeeResponse> response = ApiResponse.<EmployeeResponse>builder()
-                .status(SUCCESS_MESSAGE)
+                .status("Employee found successfully")
                 .results(employee)
                 .build();
         return ResponseEntity.ok(response);
@@ -59,7 +58,7 @@ class EmployeeController {
         List<EmployeeResponse> employees = employeeService.getAllEmployees();
 
         ApiResponse<List<EmployeeResponse>> response = ApiResponse.<List<EmployeeResponse>>builder()
-                .status(SUCCESS_MESSAGE)
+                .status("All Employees found successfully")
                 .results(employees)
                 .build();
         return ResponseEntity.ok(response);

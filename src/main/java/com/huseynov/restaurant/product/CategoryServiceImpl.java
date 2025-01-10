@@ -45,19 +45,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO deleteCategoryById(Long id) {
-        log.info("CategoryServiceImpl::deleteCategoryById execution started");
-
-        Category category = categoryRepo.findCategoryById(id)
-                .orElseThrow(() -> new CustomNotFoundException("Category not found, id: " + id));
-        categoryRepo.delete(category);
-        log.info("Category deleted: {}", category);
-
-        return modelMapper.map(category, CategoryDTO.class);
-
-    }
-
-    @Override
     public CategoryDTO getCategoryById(Long id) {
         log.info("CategoryServiceImpl::getCategory execution started");
         Category category = categoryRepo.findCategoryById(id)
@@ -79,5 +66,17 @@ public class CategoryServiceImpl implements CategoryService {
                 .stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class))
                 .toList();
+    }
+
+    @Override
+    public CategoryDTO deleteCategoryById(Long id) {
+        log.info("CategoryServiceImpl::deleteCategoryById execution started");
+
+        Category category = categoryRepo.findCategoryById(id)
+                .orElseThrow(() -> new CustomNotFoundException("Category not found, id: " + id));
+        categoryRepo.delete(category);
+        log.info("Category deleted: {}", category);
+
+        return modelMapper.map(category, CategoryDTO.class);
     }
 }
