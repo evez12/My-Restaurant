@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.security;
+package com.huseynov.restaurant.shared.exception;
 
 public class CustomAuthException extends RuntimeException {
     public CustomAuthException(String message) {

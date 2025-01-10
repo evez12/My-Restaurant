@@ -1,4 +1,6 @@
 spring:
+  app:
+    jwtSecret: MySecretHGYvvTfsg6352432hhdgshgFFwtfsaFAsgg323vxhEg
   application:
     name: RestaurantMS
   datasource:
@@ -13,6 +15,8 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  main:
+    banner-mode: off
 
 #Logging Configuration
 logging:
@@ -20,12 +24,12 @@ logging:
     root: warn
     org:
       springframework:
-        web: warn
+        web: info
         security: debug
       hibernate: error
     com:
       huseynov:
-        restaurant: warn
+        restaurant: info
     include-aplication-group: false
     inculde-aplication-name: false
 

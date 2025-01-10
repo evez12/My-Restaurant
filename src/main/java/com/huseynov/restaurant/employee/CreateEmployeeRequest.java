@@ -20,7 +20,6 @@ public class CreateEmployeeRequest {
     @NotBlank(message = "Surname shouldn't be empty")
     String surname;
 
-    @NotBlank(message = "Role shouldn't be empty")
     String role = "EMPLOYEE";
 
     @NotBlank(message = "Email shouldn't be empty")
