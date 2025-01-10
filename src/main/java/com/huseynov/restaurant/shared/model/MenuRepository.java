@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.menu;
+package com.huseynov.restaurant.shared.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,5 @@
 package com.huseynov.restaurant.product;
 
-import com.huseynov.restaurant.menu.Category;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -39,7 +38,7 @@ public class Product {
             cascade = CascadeType.ALL, orphanRemoval = true)
     Set<ProductImage> productImages = new HashSet<>();
 
-    public Product(String name, String description, int inventory, BigDecimal price, Category category) {
+    Product(String name, String description, int inventory, BigDecimal price, Category category) {
         this.name = name;
         this.description = description;
         this.inventory = inventory;

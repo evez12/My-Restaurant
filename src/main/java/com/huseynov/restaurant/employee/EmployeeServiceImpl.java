@@ -6,7 +6,7 @@ import com.huseynov.restaurant.shared.dto.response.LoginResponse;
 import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
 import com.huseynov.restaurant.shared.exception.CustomAuthException;
 import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
-import com.huseynov.restaurant.shared.exception.ExistsEmailException;
+import com.huseynov.restaurant.shared.exception.ExistsItemException;
 import com.huseynov.restaurant.shared.model.Role;
 import com.huseynov.restaurant.shared.model.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,7 @@ class EmployeeServiceImpl implements EmployeeService {
             log.info("EmployeeServiceImpl:createEmployee execution started, request: {}", request);
             if (employeeRepository.existsEmployeeByEmail(request.getEmail())) {
                 log.warn("Email already exists, email: {}", request.getEmail());
-                throw new ExistsEmailException("Email already exists, email: " + request.getEmail());
+                throw new ExistsItemException("Email already exists, email: " + request.getEmail());
             }
 
             Employee employee = EmployeeMapper.convertCreateEmployeeRequestToEmployee(request);
@@ -67,7 +67,7 @@ class EmployeeServiceImpl implements EmployeeService {
             }
             employee.setRoles(Set.of(role1));
             return generateRegisterResponse(employee, request.getEmail(), request.getPassword());
-        } catch (ExistsEmailException e) {
+        } catch (ExistsItemException e) {
             throw e;
         }
         catch (RuntimeException e) {

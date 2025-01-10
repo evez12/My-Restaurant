@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/customer/**").hasAuthority("CUSTOMER")
                         .requestMatchers("/api/v1/employee/**").hasAuthority("EMPLOYEE")
                         .requestMatchers("/api/v1/manager/**").hasAuthority("MANAGER")
+                        .requestMatchers("/api/v1/categories/**").hasAuthority("MANAGER")
                         .requestMatchers("/api/v1/employees/**").hasAuthority("ADMIN")
                         .requestMatchers("/**").hasAuthority("ADMIN")   // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated

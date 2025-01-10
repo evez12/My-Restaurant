@@ -1,7 +1,6 @@
 package com.huseynov.restaurant.employee;
 
 import com.huseynov.restaurant.shared.dto.error.ApiError;
-import com.huseynov.restaurant.shared.exception.ExistsEmailException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,12 +12,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j(topic = "EMPLOYEE_EXCEPTION_HANDLER")
 class EmployeeExceptionHandler {
 
-    @ExceptionHandler(ExistsEmailException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ApiError handleExistsEmailException(ExistsEmailException exception) {
-        log.error("ExistsEmailException: {}", exception.getMessage());
-        return new ApiError(HttpStatus.BAD_REQUEST, "Email already exists", exception);
-    }
 
     @ExceptionHandler(EmployeeServiceException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

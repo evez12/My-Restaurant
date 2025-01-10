@@ -6,7 +6,7 @@ import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
 import com.huseynov.restaurant.shared.dto.response.LoginResponse;
 import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
 import com.huseynov.restaurant.shared.exception.CustomAuthException;
-import com.huseynov.restaurant.shared.exception.ExistsEmailException;
+import com.huseynov.restaurant.shared.exception.ExistsItemException;
 import com.huseynov.restaurant.shared.model.Role;
 import com.huseynov.restaurant.shared.model.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             if (customerRepo.existsCustomerByEmail(request.getEmail())) {
                 log.warn("Email already exists, email: {}", request.getEmail());
-                throw new ExistsEmailException();
+                throw new ExistsItemException();
             }
             Customer customer = CustomerMapper.convertRegisterrequestToCustomer(request);
             customer.setPassword(authService
@@ -60,9 +60,9 @@ public class CustomerServiceImpl implements CustomerService {
             LoginResponse loginResponse = authenticationProcess(authentication);
             return new RegisterResponse(loginResponse.getEmail(), loginResponse.getToken(), loginResponse.getRoles());
 
-        } catch (ExistsEmailException e) {
+        } catch (ExistsItemException e) {
             log.error("Error in registration {}", e.getMessage());
-            throw new ExistsEmailException("Email already exists, email: " + request.getEmail());
+            throw new ExistsItemException("Email already exists, email: " + request.getEmail());
         }
     }
 

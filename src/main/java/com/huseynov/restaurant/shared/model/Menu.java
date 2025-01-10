@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.menu;
+package com.huseynov.restaurant.shared.model;
 
 import com.huseynov.restaurant.product.Product;
 import jakarta.persistence.*;

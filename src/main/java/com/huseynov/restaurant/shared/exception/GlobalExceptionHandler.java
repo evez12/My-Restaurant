@@ -34,6 +34,13 @@ public class GlobalExceptionHandler {
         return response;
     }
 
+    @ExceptionHandler(ExistsItemException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    ApiError handleExistsEmailException(ExistsItemException exception) {
+        log.error("ExistsItemException: {}", exception.getMessage());
+        return new ApiError(HttpStatus.BAD_REQUEST, "Already exists", exception);
+    }
+
     @ExceptionHandler(CustomNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ApiError handleEmployeeNotFoundException(CustomNotFoundException exception) {

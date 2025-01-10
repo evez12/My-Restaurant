@@ -1,6 +1,5 @@
-package com.huseynov.restaurant.menu;
+package com.huseynov.restaurant.product;
 
-import com.huseynov.restaurant.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,6 +22,14 @@ public class Category {
     String name;
 
 //    @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
     List<Product> products;
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
