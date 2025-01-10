@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController()
 @CrossOrigin()
 @RequiredArgsConstructor
-@Slf4j
+@Slf4j(topic = "AUTH_CONTROLLER")
 @RequestMapping("${api.prefix}/auth")
 public class AuthController {
     private final RouterService routerService;
@@ -34,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterRequest request){
+    ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterRequest request) {
         log.info("AuthController::register request body {}", request);
 
         RegisterResponse registerResponse = routerService.register(request);
@@ -46,4 +46,5 @@ public class AuthController {
         log.info("AuthController::register response {}", registerResponse);
         return ResponseEntity.ok(response);
     }
+
 }

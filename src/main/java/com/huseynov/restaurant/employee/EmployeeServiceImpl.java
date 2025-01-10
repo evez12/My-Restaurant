@@ -1,10 +1,12 @@
 package com.huseynov.restaurant.employee;
 
 import com.huseynov.restaurant.security.AuthService;
-import com.huseynov.restaurant.security.CustomAuthException;
 import com.huseynov.restaurant.shared.dto.request.LoginRequest;
 import com.huseynov.restaurant.shared.dto.response.LoginResponse;
 import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
+import com.huseynov.restaurant.shared.exception.CustomAuthException;
+import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
+import com.huseynov.restaurant.shared.exception.ExistsEmailException;
 import com.huseynov.restaurant.shared.model.Role;
 import com.huseynov.restaurant.shared.model.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Service
+@Service()
 @Slf4j
 @RequiredArgsConstructor
 class EmployeeServiceImpl implements EmployeeService {
@@ -35,10 +37,10 @@ class EmployeeServiceImpl implements EmployeeService {
             authentication = authService.authentication(request.getEmail(), request.getPassword());
         } catch (AuthenticationException e) {
             log.error("Error in authentication {}", e.getMessage());
-            throw new CustomAuthException("Error in authentication");
+            throw new CustomAuthException("Invalid email or password");
         }
 
-        return generateLoginResponse(authentication);
+        return authenticationProcess(authentication);
     }
 
     @Override
@@ -50,51 +52,45 @@ class EmployeeServiceImpl implements EmployeeService {
                 throw new ExistsEmailException("Email already exists, email: " + request.getEmail());
             }
 
-            Employee employee = employeeMapper.convertDtoToEntity(request);
+            Employee employee = EmployeeMapper.convertCreateEmployeeRequestToEmployee(request);
             employee.setPassword(authService
                     .getPasswordEncoder()
                     .encode(request.getPassword()));
 
             Role role1 = roleRepo.findByName("EMPLOYEE");
-            employee.setRoles(Set.of(role1));
             EmployeeDetail employeeDetail = employee.getEmployeeDetail();
             employeeDetail.setEmployee(employee);
             employee.setEmployeeDetail(employeeDetail);
 
             if ("MANAGER".equals(request.getRole())) {
-                return createManager(employee);
+                return createManager(employee, role1);
             }
-
+            employee.setRoles(Set.of(role1));
             return generateRegisterResponse(employee, request.getEmail(), request.getPassword());
         } catch (ExistsEmailException e) {
             throw e;
-        } catch (Exception e) {
-            log.error("Exception occurred while persisting employee to database, Exception message {}", e.getMessage());
-            throw new EmployeeServiceException("Exception occurred while persisting employee to database");
+        }
+        catch (RuntimeException e) {
+            log.error("Error in createEmployee {}", e.getMessage());
+            throw new EmployeeServiceException("Error occurred while trying to create employee with email: " + request.getEmail());
         }
 
     }
 
-    public RegisterResponse createManager(Employee employee) {
-        try {
-            log.info("EmployeeServiceImpl:createManager execution started");
+    public RegisterResponse createManager(Employee employee, Role role1) {
+        log.info("EmployeeServiceImpl:createManager execution started");
+        Role role2 = roleRepo.findByName("MANAGER");
+        log.info("Role found: {}", role2);
+        employee.setRoles(Set.of(role1, role2));
+        log.info("Employee roles after add: {}", employee.getRoles());
 
-            Role role1 = roleRepo.findByName("MANAGER");
-            employee.getRoles().add(role1);
-
-            return generateRegisterResponse(employee, employee.getEmail(), employee.getPassword());
-        } catch (ExistsEmailException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error("Exception occurred while persisting employee to database, Exception message {}", e.getMessage());
-            throw new EmployeeServiceException("Exception occurred while persisting employee to database");
-        }
+        return generateRegisterResponse(employee, employee.getEmail(), employee.getPassword());
 
     }
 
     @Override
-    public LoginResponse generateLoginResponse(Authentication authentication) {
-        log.info("EmployeeServiceImpl:generateLoginResponse execution started");
+    public LoginResponse authenticationProcess(Authentication authentication) {
+        log.info("EmployeeServiceImpl:authenticationProcess execution started");
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String jwtToken = authService.generateJwtToken(userDetails);
         List<String> roles = userDetails
@@ -115,13 +111,14 @@ class EmployeeServiceImpl implements EmployeeService {
         log.info("EmployeeServiceImpl:generateRegisterResponse execution started");
         Employee savedEmployee = employeeRepository.save(employee);
         log.debug("Employee saved: {}", savedEmployee);
+        List<String> roles = savedEmployee.getRoles()
+                .stream()
+                .map(Role::getName)
+                .toList();
 
-        Authentication authentication = authService.authentication(email, password);
-        LoginResponse loginResponse = generateLoginResponse(authentication);
         return new RegisterResponse(
-                loginResponse.getEmail(),
-                loginResponse.getToken(),
-                loginResponse.getRoles()
+                email,
+                roles
         );
     }
 
@@ -132,7 +129,7 @@ class EmployeeServiceImpl implements EmployeeService {
             List<Employee> employees = employeeRepository.findAll();
             if (employees.isEmpty()) {
                 log.warn("Employees not found in Database");
-                throw new EmployeeNotFoundException("Employees not found in Database");
+                throw new CustomNotFoundException("Employees not found in Database");
             }
 
             return employees
@@ -140,9 +137,12 @@ class EmployeeServiceImpl implements EmployeeService {
                     .map(employeeMapper::convertEntityToResponse)
                     .toList();
 
-        } catch (Exception e) {
-            log.error("Exception occurred while fetch all employees from Database, Exception message: {}", e.getMessage());
-            throw new EmployeeServiceException("Exception occurred while fetching all employees from Database");
+        } catch (CustomNotFoundException e) {
+            throw e;
+        }
+        catch (RuntimeException e) {
+            log.error("Error in getAllEmployees {}", e.getMessage());
+            throw new EmployeeServiceException("Error occurred while trying to get all employee with id: " );
         }
     }
 
@@ -151,13 +151,13 @@ class EmployeeServiceImpl implements EmployeeService {
 
         try {
             Employee employee = employeeRepository.findById(employeeId)
-                    .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + employeeId));
+                    .orElseThrow(() -> new CustomNotFoundException("Employee not found with id: " + employeeId));
             return employeeMapper.convertEntityToResponse(employee);
-        } catch (EmployeeNotFoundException e) {
+        } catch (CustomNotFoundException e) {
             throw e;
-        } catch (Exception e) {
-            log.error("Exception occurred while fetch employee from Database with id: {}", employeeId, e);
-            throw new EmployeeServiceException("Exception occurred while fetching employee from Database with id: " + employeeId);
+        } catch (RuntimeException e) {
+            log.error("Error in getEmployeeById {}", e.getMessage());
+            throw new EmployeeServiceException("Error occurred while trying to get employee with id: " + employeeId);
         }
     }
 }

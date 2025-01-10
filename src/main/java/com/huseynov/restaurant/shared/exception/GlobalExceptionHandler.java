@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
-@Slf4j
 @RestControllerAdvice
+@Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
 public class GlobalExceptionHandler {
 
 
@@ -32,6 +32,20 @@ public class GlobalExceptionHandler {
 
         log.error("MethodArgumentNotValidException response: {}", response);
         return response;
+    }
+
+    @ExceptionHandler(CustomNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ApiError handleEmployeeNotFoundException(CustomNotFoundException exception) {
+        log.error("CustomNotFoundException: {}", exception.getMessage());
+        return new ApiError(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
+
+    @ExceptionHandler(CustomAuthException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ApiError handleCustomAuthException(CustomAuthException exception) {
+        log.error("CustomAuthException: {}", exception.getMessage());
+        return new ApiError(HttpStatus.UNAUTHORIZED, exception.getMessage());
     }
 
 }

@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Getter()
-@Setter()
-@NoArgsConstructor()
-@AllArgsConstructor()
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "role")
@@ -27,7 +27,7 @@ public class Role {
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", name=" +
+                ", name=" + name +
                 '}';
     }
 }

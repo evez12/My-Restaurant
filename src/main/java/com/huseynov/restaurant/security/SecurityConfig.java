@@ -1,10 +1,8 @@
 package com.huseynov.restaurant.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -26,19 +24,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter authTokenFilter;
-    @Value("${api.prefix}")
-    private String apiPrefix;  // "/api/v1"
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
                 request
-                        .requestMatchers(apiPrefix + "/hello").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, apiPrefix + "/**").permitAll() // for pre-flight request
-                        .requestMatchers(apiPrefix + "/auth/**").permitAll()
-                        .requestMatchers(apiPrefix + "/user", "/profile").hasAuthority("USER")
-                        .requestMatchers(apiPrefix + "/manager").hasAuthority("MANAGER")
-                        .requestMatchers("/**").hasAuthority("ADMIN") // this should be the last line
+                        .requestMatchers("/api/v1/hello").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/user", "/api/v1/profile").hasAuthority("USER")
+                        .requestMatchers("/api/v1/customer/**").hasAuthority("CUSTOMER")
+                        .requestMatchers("/api/v1/employee/**").hasAuthority("EMPLOYEE")
+                        .requestMatchers("/api/v1/manager/**").hasAuthority("MANAGER")
+                        .requestMatchers("/api/v1/employees/**").hasAuthority("ADMIN")
+                        .requestMatchers("/**").hasAuthority("ADMIN")   // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated
         );
 
@@ -54,10 +52,12 @@ public class SecurityConfig {
         httpSecurity
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable);
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable);
 
         return httpSecurity.build();
     }
+
 
     @Bean
     DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {

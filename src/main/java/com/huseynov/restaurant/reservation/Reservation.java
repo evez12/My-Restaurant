@@ -22,7 +22,7 @@ public class Reservation {
     Long id;
 
     @Column(name = "count_of_guests")
-    int CountOfGuests;
+    int countOfGuests;
 
     @Column(name = "table_number")
     int tableNumber;

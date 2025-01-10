@@ -1,12 +1,12 @@
 package com.huseynov.restaurant.security;
 
 import com.huseynov.restaurant.customer.CustomerService;
-import com.huseynov.restaurant.customer.InvalidEmailException;
 import com.huseynov.restaurant.employee.EmployeeService;
 import com.huseynov.restaurant.shared.dto.request.LoginRequest;
 import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
 import com.huseynov.restaurant.shared.dto.response.LoginResponse;
 import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
+import com.huseynov.restaurant.shared.exception.InvalidEmailException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class RouterService {
         // then it is a customer email
         else {
             log.info("RestaurantService::login Customer login");
-            return null;
+            return customerService.authenticateCustomer(loginRequest);
         }
     }
 
@@ -40,10 +40,10 @@ public class RouterService {
             if (request.getEmail().endsWith("@restaurant.com")) {
                 throw new InvalidEmailException("Invalid email address", request.getEmail());
             }
+            return customerService.register(request);
         } catch (InvalidEmailException e) {
             log.error("An error occurred while trying to register with email :{}, {}", request.getEmail(), e.getMessage());
             throw e;
         }
-        return null;
     }
 }

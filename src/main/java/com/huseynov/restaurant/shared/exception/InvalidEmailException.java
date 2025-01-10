@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.customer;
+package com.huseynov.restaurant.shared.exception;
 
 import lombok.Getter;
 

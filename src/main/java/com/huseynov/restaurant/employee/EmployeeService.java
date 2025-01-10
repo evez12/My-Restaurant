@@ -12,7 +12,7 @@ public interface EmployeeService {
 
     LoginResponse authenticateEmployee(LoginRequest request);
 
-    LoginResponse generateLoginResponse(Authentication authentication);
+    LoginResponse authenticationProcess(Authentication authentication);
 
     RegisterResponse generateRegisterResponse(Employee employee, String email, String password);
 

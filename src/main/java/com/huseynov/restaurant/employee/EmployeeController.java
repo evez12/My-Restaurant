@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin
 @RestController()
 @RequestMapping("${api.prefix}/employees")
-@Slf4j
+@CrossOrigin
+@Slf4j(topic = "EMPLOYEE_CONTROLLER")
 class EmployeeController {
 
     private static final String SUCCESS_MESSAGE = "SUCCESS";
@@ -23,7 +23,8 @@ class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("")
+    @PostMapping("/")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     ResponseEntity<ApiResponse<RegisterResponse>> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) {
         log.info("EmployeeController::createEmployee request body {}", request);
 
@@ -33,8 +34,13 @@ class EmployeeController {
                 .status(SUCCESS_MESSAGE)
                 .results(employee)
                 .build();
-        log.info("EmployeeController::createEmployee employee {}", employee);
+        log.info("EmployeeController::createEmployee response employee, {}", employee);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/hello")
+    public String helloEmployee() {
+        return "Hello Employee";
     }
 
     @GetMapping("/{id}")

@@ -19,4 +19,9 @@ public class RegisterResponse {
         this.token = token;
         this.email = email;
     }
+
+    public RegisterResponse(String email, List<String> roles) {
+        this.roles = roles;
+        this.email = email;
+    }
 }

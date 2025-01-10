@@ -1,11 +1,12 @@
 package com.huseynov.restaurant.employee;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Slf4j
 class EmployeeMapper {
     private final ModelMapper modelMapper;
 
@@ -13,14 +14,28 @@ class EmployeeMapper {
         this.modelMapper = modelMapper;
     }
 
-    @Bean
+    public static Employee convertCreateEmployeeRequestToEmployee(CreateEmployeeRequest request) {
+        Employee employee = new Employee();
+        employee.setName(request.getName());
+        employee.setSurname(request.getSurname());
+        employee.setEmail(request.getEmail());
+        EmployeeDetail employeeDetail = new EmployeeDetail();
+        employeeDetail.setAddress(request.getAddress());
+        employeeDetail.setPhoneNumber(request.getPhoneNumber());
+        employeeDetail.setGender(request.getGender());
+        employeeDetail.setSalary(request.getSalary());
+        employee.setEmployeeDetail(employeeDetail);
+        log.info("EmployeeMapper::convertCreateEmployeeRequestToEmployee employee {}", employee);
+        log.info("EmployeeMapper::convertCreateEmployeeRequestToEmployee employeeDetail {}", employee.getEmployeeDetail());
+        return employee;
+    }
+
     ModelMapper employeeMapper() {
 
         //   Define the mapping for Employee to EmployeeResponse
         modelMapper.addMappings(new PropertyMap<Employee, EmployeeResponse>() {
             @Override
             protected void configure() {
-                map().setEmployeeId(source.getId());
                 map().setName(source.getName());
                 map().setSurname(source.getSurname());
                 map().setEmail(source.getEmail());
@@ -28,20 +43,6 @@ class EmployeeMapper {
                 map().setPhoneNumber(source.getEmployeeDetail().getPhoneNumber());
                 map().setGender(source.getEmployeeDetail().getGender());
                 map().setSalary(source.getEmployeeDetail().getSalary());
-            }
-        });
-
-        // Define the mapping for EmployeeRequest to Employee
-        modelMapper.addMappings(new PropertyMap<CreateEmployeeRequest, Employee>() {
-            @Override
-            protected void configure() {
-                map().setName(source.getName());
-                map().setSurname(source.getSurname());
-                map().setEmail(source.getEmail());
-                map().getEmployeeDetail().setAddress(source.getAddress());
-                map().getEmployeeDetail().setPhoneNumber(source.getPhoneNumber());
-                map().getEmployeeDetail().setGender(source.getGender());
-                map().getEmployeeDetail().setSalary(source.getSalary());
             }
         });
 
@@ -62,10 +63,6 @@ class EmployeeMapper {
 
     public Employee convertDtoToEntity(EmployeeResponse employeeResponse) {
         return modelMapper.map(employeeResponse, Employee.class);
-    }
-
-    public Employee convertDtoToEntity(CreateEmployeeRequest employeeRequest) {
-        return modelMapper.map(employeeRequest, Employee.class);
     }
 
 }

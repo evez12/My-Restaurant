@@ -1,6 +1,5 @@
 package com.huseynov.restaurant.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huseynov.restaurant.shared.dto.error.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,7 +30,6 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
                 "path: " + request.getServletPath() + "; " + authException.getMessage(),
                 authException);
 
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), error);
+        response.getWriter().write(error.toString());
     }
 }

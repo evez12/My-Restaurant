@@ -23,7 +23,9 @@ public class RegisterRequest {
 
     private String name;
     private String surname;
-    private String gender = Gender.UNDEFINED.toString();
+    private Gender gender = Gender.UNDEFINED;
+    private String phoneNumber;
+    private String address;
 
 
     public RegisterRequest(String email, String password) {
