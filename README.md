@@ -14,7 +14,7 @@ Managing reservations and product orders can be challenging for restaurants and 
 
 ---
 
-## Approach to Solve the Problem
+## Approach to Solve the Problem(package/file structure)
 To address the identified issues, this application organizes its codebase using a modular structure, focusing on scalability and maintainability. Two common approaches for structuring the codebase are:
 
 ### a) Package by Feature
@@ -31,19 +31,20 @@ To address the identified issues, this application organizes its codebase using 
 The `Package by Feature` approach is chosen for the following reasons:
 
 ### a) Future Transition to Microservices
-This approach simplifies the transition to a microservices architecture, where each feature can be converted into an independent service without affecting other modules.
+Organizing the codebase by feature simplifies the transition to a microservices architecture. Each feature is self-contained, allowing it to be extracted into an independent service with minimal changes to other parts of the application. This modular structure reduces interdependencies, making the application easier to scale and adapt to future requirements.
 
 ### b) High Cohesion and Low Coupling
-- **High Cohesion:** Ensures that all classes and components within a feature package are closely related and work together seamlessly.
-- **Low Coupling:** Minimizes dependencies between different feature packages, making the application more modular and easier to manage.
+- **High cohesion and low coupling are essential principles in software design that enhance modularity, maintainability, and scalability.**
+- **High Cohesion:** High Cohesion ensures that elements within a module are closely related and work together to achieve a single purpose. In the Package by Feature approach, all classes and components related to a specific feature, such as Order, Reservation, or User, are grouped together. This improves understandability and reusability, as the functionality within each package is focused and directly related.
 
+- **Low Coupling:** Low Coupling minimizes dependencies between different feature packages. Each package is designed to operate independently, reducing the ripple effects of changes. This makes the system more robust and easier to maintain, as updates to one package are less likely to impact others. Additionally, this structure supports scalability and aligns well with a microservices architecture, where each service can function as an independent unit.
 ---
 
 ## How to Use
 
 ### Prerequisites
 - Ensure you have Java and Maven installed.
-- Set up a compatible database (e.g., MySQL or PostgreSQL) and configure the application properties accordingly.
+- Set up a compatible database (I used PostgreSQL) and configure the application properties accordingly.
 - Use a modern browser for the best user experience.
 
 ### Steps to Run
