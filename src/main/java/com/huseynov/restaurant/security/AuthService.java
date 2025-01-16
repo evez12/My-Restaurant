@@ -21,9 +21,9 @@ public class AuthService {
     @Getter
     private final PasswordEncoder passwordEncoder;
 
-    public Authentication authentication(String username, String password) throws AuthenticationException {
+    public Authentication authentication(String email, String password) throws AuthenticationException {
         Authentication authentication = authManager
-                .authenticate(new UsernamePasswordAuthenticationToken(username, password));
+                .authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
 //      Set the authentication in the security context (to be used in the future)
         SecurityContextHolder.getContext().setAuthentication(authentication);

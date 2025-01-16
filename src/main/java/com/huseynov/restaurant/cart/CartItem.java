@@ -20,9 +20,10 @@ public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @Column(name = "id")
+    Long itemId;
     int quantity;
-
+    String category;
     @Column(name = "unit_price")
     BigDecimal unitPrice = BigDecimal.ZERO;
 
@@ -41,5 +42,15 @@ public class CartItem {
 
     public void setTotalPrice() {
         this.totalPrice = unitPrice.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "id=" + itemId +
+                ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
+                ", unitPrice=" + unitPrice +
+                '}';
     }
 }

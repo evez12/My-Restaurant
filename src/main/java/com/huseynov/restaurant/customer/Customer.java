@@ -1,5 +1,6 @@
 package com.huseynov.restaurant.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.huseynov.restaurant.cart.Cart;
 import com.huseynov.restaurant.order.Order;
 import com.huseynov.restaurant.reservation.Reservation;
@@ -22,6 +23,11 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "customer")
+@NamedEntityGraph(
+        name = "customer-role",
+        attributeNodes = @NamedAttributeNode("roles")
+
+)
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,12 +57,30 @@ public class Customer {
     )
     Set<Role> roles; // Customer's role is "CUSTOMER" by default
 
+    @JsonIgnore
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    Cart cart;
+    private Cart cart;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     Reservation reservation;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     List<Order> orders;
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", gender=" + gender +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

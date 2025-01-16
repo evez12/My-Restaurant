@@ -22,23 +22,30 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity()
 @EnableMethodSecurity() // For @PreAuthorize
 public class SecurityConfig {
+    private static final String ROLE_CUSTOMER = "CUSTOMER";
+    private static final String ROLE_EMPLOYEE = "EMPLOYEE";
+    private static final String ROLE_MANAGER = "MANAGER";
+    private static final String ROLE_ADMIN = "ADMIN";
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter authTokenFilter;
-    private static final String ROLE_MANAGER="MANAGER";
+
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
                 request
                         .requestMatchers("/api/v1/hello").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/user", "/api/v1/profile").hasAuthority("USER")
-                        .requestMatchers("/api/v1/customer/**").hasAuthority("CUSTOMER")
-                        .requestMatchers("/api/v1/employee/**").hasAuthority("EMPLOYEE")
+
+                        .requestMatchers("/api/v1/carts/**").hasAuthority(ROLE_CUSTOMER)
+                        .requestMatchers("/api/v1/customer/**").hasAuthority(ROLE_CUSTOMER)
+                        .requestMatchers("/api/v1/employee/**").hasAuthority(ROLE_EMPLOYEE)
+
                         .requestMatchers("/api/v1/manager/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/categories/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/products/**").hasAuthority(ROLE_MANAGER)
-                        .requestMatchers("/api/v1/employees/**").hasAuthority("ADMIN")
-                        .requestMatchers("/**").hasAuthority("ADMIN")   // this should be the last line
+
+                        .requestMatchers("/api/v1/employees/**").hasAuthority(ROLE_MANAGER)
+                        .requestMatchers("/**").hasAuthority(ROLE_ADMIN)   // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated
         );
 
@@ -54,8 +61,7 @@ public class SecurityConfig {
         httpSecurity
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable);
+                .csrf(AbstractHttpConfigurer::disable);
 
         return httpSecurity.build();
     }
@@ -76,7 +82,7 @@ public class SecurityConfig {
 
     @Bean
     PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // strength is 10
+        return new BCryptPasswordEncoder(); // default strength  is 10
     }
 
 }

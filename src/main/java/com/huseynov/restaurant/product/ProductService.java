@@ -3,13 +3,13 @@ package com.huseynov.restaurant.product;
 import java.util.List;
 
 public interface ProductService {
-    ProductDTO createProduct(ProductDTO productDTO);
+    Product createProduct(ProductDTO productDTO);
 
-    ProductDTO updateProduct(Long id, ProductDTO productDTO);
+    Product updateProduct(Long id, ProductDTO productDTO);
 
-    ProductDTO getProductById(Long id);
+    Product getProductById(Long id);
 
-    ProductDTO deleteProduct(Long id);
+    Product deleteProduct(Long id);
 
     List<ProductDTO> getProducts();
 

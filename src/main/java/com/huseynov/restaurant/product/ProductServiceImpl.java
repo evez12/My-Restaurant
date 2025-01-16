@@ -18,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public ProductDTO createProduct(ProductDTO productDTO) {
+    public Product createProduct(ProductDTO productDTO) {
         log.info("ProductServiceImpl::createProduct executed ");
 
         if (productRepository.existsProductByName(productDTO.getName())) { // check if the product exists
@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Category category = categoryRepository
-                .findByName(productDTO.getCategoryName())
+                .findCategoryByName(productDTO.getCategoryName())
                 .orElseThrow(() -> new CustomNotFoundException("Category not found, name: " + productDTO.getCategoryName()));
 
         Product product = modelMapper.map(productDTO, Product.class);
@@ -36,11 +36,11 @@ public class ProductServiceImpl implements ProductService {
         product = productRepository.save(product);
         log.info("Product with id {} created", product);
 
-        return modelMapper.map(product, ProductDTO.class);
+        return product;
     }
 
     @Override
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+    public Product updateProduct(Long id, ProductDTO productDTO) {
         log.info("ProductServiceImpl::updateProduct executed");
 
         Product product = productRepository.findProductById(id)
@@ -48,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         log.info("Product before update: {}", product);
 
         Category category = categoryRepository
-                .findByName(productDTO.getCategoryName())
+                .findCategoryByName(productDTO.getCategoryName())
                 .orElseThrow(() -> new CustomNotFoundException("Category not found, with name: " + productDTO.getCategoryName()));
 
         product = modelMapper.map(productDTO, Product.class);
@@ -58,26 +58,24 @@ public class ProductServiceImpl implements ProductService {
 
         log.info("Product updated after, {}", product);
 
-        return modelMapper.map(product, ProductDTO.class);
+        return product;
     }
 
     @Override
-    public ProductDTO getProductById(Long id) {
+    public Product getProductById(Long id) {
         log.info("ProductServiceImpl::getProduct executed ");
 
-        Product product = productRepository.findProductById(id)
+        return productRepository.findProductById(id)
                 .orElseThrow(() -> new CustomNotFoundException("Product with id " + id + " not found"));
-
-        return modelMapper.map(product, ProductDTO.class);
     }
 
     @Override
-    public ProductDTO deleteProduct(Long id) {
+    public Product deleteProduct(Long id) {
         log.info("ProductServiceImpl::deleteProduct executed");
         Product product = productRepository.findProductById(id)
                 .orElseThrow(() -> new CustomNotFoundException("Product with id " + id + " not found"));
         productRepository.delete(product);
-        return modelMapper.map(product, ProductDTO.class);
+        return product;
     }
 
     @Override
@@ -98,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getProductsByCategoryName(String categoryName) {
         log.info("ProductServiceImpl::getProductsByCategory executed");
 
-        Category category = categoryRepository.findByName(categoryName)
+        Category category = categoryRepository.findCategoryByName(categoryName)
                 .orElseThrow(() -> new CustomNotFoundException("Category not found, with name: " + categoryName));
 
         List<Product> products = productRepository.findProductsByCategory(category);

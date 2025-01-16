@@ -18,6 +18,15 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "product")
+@NamedEntityGraph(name = "product-with-category-and-images",
+        attributeNodes = {
+                @NamedAttributeNode("category"),
+                @NamedAttributeNode("productImages")
+        }
+)
+@NamedEntityGraph(name = "product-with-category",
+        attributeNodes = @NamedAttributeNode("category")
+)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -18,4 +18,9 @@ public class ApiResponse<T> {
     List<ApiError> errors;
     T results;
 
+    public ApiResponse(String status, T results) {
+        this.status = status;
+        this.results = results;
+    }
+
 }

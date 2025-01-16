@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 
 @RestControllerAdvice
-@Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
+@Slf4j()
 public class GlobalExceptionHandler {
 
 
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ExistsItemException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ApiError handleExistsEmailException(ExistsItemException exception) {
+    ApiError handleExistsItemException(ExistsItemException exception) {
         log.error("ExistsItemException: {}", exception.getMessage());
         return new ApiError(HttpStatus.BAD_REQUEST, "Already exists", exception);
     }
@@ -53,6 +53,13 @@ public class GlobalExceptionHandler {
     public ApiError handleCustomAuthException(CustomAuthException exception) {
         log.error("CustomAuthException: {}", exception.getMessage());
         return new ApiError(HttpStatus.UNAUTHORIZED, exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleInvalidRequestException(InvalidRequestException exception) {
+        log.error("InvalidRequestException: {}", exception.getMessage());
+        return new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
 }
