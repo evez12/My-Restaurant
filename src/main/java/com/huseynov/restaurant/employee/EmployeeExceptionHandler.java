@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @RestControllerAdvice()
-@Slf4j(topic = "EMPLOYEE_EXCEPTION_HANDLER")
+@Slf4j()
 class EmployeeExceptionHandler {
 
 

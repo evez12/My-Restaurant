@@ -21,7 +21,7 @@ import java.util.Set;
 // For N + 1 query problem
 @NamedEntityGraphs(value = {
         @NamedEntityGraph(
-                name = "employee-detail",
+                name = "employee-detail-graph",
                 attributeNodes = @NamedAttributeNode("employeeDetail")
         ),
 })

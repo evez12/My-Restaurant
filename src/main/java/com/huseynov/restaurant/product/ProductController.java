@@ -4,6 +4,7 @@ import com.huseynov.restaurant.shared.dto.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,15 @@ import java.util.List;
 @Slf4j
 public class ProductController {
     private final ProductService productService;
+    private final ModelMapper modelMapper;
 
     @PostMapping("/products")
     ResponseEntity<ApiResponse<ProductDTO>> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         log.info("ProductController::createProduct executed, request body: {}", productDTO);
 
-        ProductDTO product = productService.createProduct(productDTO);
+        ProductDTO product = modelMapper
+                .map(productService.createProduct(productDTO), ProductDTO.class);
+
         ApiResponse<ProductDTO> response = ApiResponse.<ProductDTO>builder()
                 .status("Product created successfully")
                 .results(product)
@@ -34,7 +38,8 @@ public class ProductController {
     ResponseEntity<ApiResponse<ProductDTO>> getProductById(@PathVariable Long id) {
         log.info("ProductController::getProductById executed, id: {}", id);
 
-        ProductDTO product = productService.getProductById(id);
+        ProductDTO product = modelMapper
+                .map(productService.getProductById(id), ProductDTO.class);
         ApiResponse<ProductDTO> response = ApiResponse.<ProductDTO>builder()
                 .status("Product found successfully")
                 .results(product)
@@ -61,7 +66,8 @@ public class ProductController {
     ResponseEntity<ApiResponse<ProductDTO>> updateProduct(@Valid @RequestBody ProductDTO productDTO, @PathVariable Long id) {
         log.info("ProductController::updateProduct executed, request body: {}, id: {}", productDTO, id);
 
-        ProductDTO product = productService.updateProduct(id, productDTO);
+        ProductDTO product = modelMapper
+                .map(productService.updateProduct(id, productDTO), ProductDTO.class);
         ApiResponse<ProductDTO> response = ApiResponse.<ProductDTO>builder()
                 .status("Product updated successfully")
                 .results(product)
@@ -75,7 +81,8 @@ public class ProductController {
     ResponseEntity<ApiResponse<ProductDTO>> deleteProduct(@PathVariable Long id) {
         log.info("ProductController::deleteProduct executed ");
 
-        ProductDTO productDTO = productService.deleteProduct(id);
+        ProductDTO productDTO = modelMapper
+                .map(productService.deleteProduct(id), ProductDTO.class);
         ApiResponse<ProductDTO> response = ApiResponse.<ProductDTO>builder()
                 .status("Product deleted successfully")
                 .results(productDTO)

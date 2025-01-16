@@ -17,7 +17,7 @@ import java.util.List;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @PostMapping("/")
+    @PostMapping("")
     ResponseEntity<ApiResponse<CategoryDTO>> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         log.info("CategoryController::createCategory request body {}", categoryDTO);
 
@@ -32,7 +32,7 @@ public class CategoryController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     ResponseEntity<ApiResponse<List<CategoryDTO>>> getCategories() {
         log.info("CategoryController::getCategories request");
 

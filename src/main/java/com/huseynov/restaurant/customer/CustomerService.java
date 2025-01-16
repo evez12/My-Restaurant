@@ -11,4 +11,7 @@ public interface CustomerService {
     LoginResponse authenticateCustomer(LoginRequest request);
     LoginResponse authenticationProcess(Authentication authentication);
 
+    Customer getCustomerById(Long id);
+
+    void saveCustomer(Customer customer);
 }

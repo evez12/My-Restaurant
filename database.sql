@@ -157,6 +157,7 @@ CREATE TABLE "cart_item"(
     "cart_id" BIGINT NOT NULL,
     "product_id" BIGINT NOT NULL,
     "unit_price" DECIMAL(8, 2) NOT NULL,
+    "category" VARCHAR(255) DEFAULT 'undefined',
     "quantity" INTEGER NOT NULL,
     "total_price" DECIMAL(8, 2) NOT NULL
 );

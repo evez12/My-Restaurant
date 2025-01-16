@@ -22,13 +22,13 @@ class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/")
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("")
     ResponseEntity<ApiResponse<RegisterResponse>> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) {
         log.info("EmployeeController::createEmployee request body {}", request);
 
         RegisterResponse employee = employeeService.createEmployee(request);
-//        Builder Design pattern have been used
+
+        //        Builder Design pattern have been used
         ApiResponse<RegisterResponse> response = ApiResponse.<RegisterResponse>builder()
                 .status("Employee created successfully")
                 .results(employee)

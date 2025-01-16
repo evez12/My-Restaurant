@@ -84,5 +84,20 @@ public class CustomerServiceImpl implements CustomerService {
         );
     }
 
+    @Override
+    public Customer getCustomerById(Long id) {
+        log.info("CustomerServiceImpl:getCustomerById execution started");
+        return customerRepo
+                .findById(id)
+                .orElseThrow(() -> new CustomAuthException("Customer not found, id: " + id));
+
+    }
+
+    @Override
+    public void saveCustomer(Customer customer) {
+        log.info("CustomerServiceImpl:saveCustomer execution started");
+        customerRepo.save(customer);
+    }
+
 
 }
