@@ -14,7 +14,10 @@ public interface CartService {
 
     boolean isCustomerRequestValidForCart();
 
+    void checkCustomerForCart();
+
     Long getCartId();
+
 }
 
 

@@ -63,7 +63,6 @@ public class Customer {
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     Reservation reservation;
-
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "customer",
@@ -71,6 +70,13 @@ public class Customer {
             orphanRemoval = true
     )
     List<Order> orders;
+
+    public Customer(Long id, String email, String password, Set<Role> roles) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 
     @Override
     public String toString() {

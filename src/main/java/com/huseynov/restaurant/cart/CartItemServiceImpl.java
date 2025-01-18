@@ -18,11 +18,16 @@ public class CartItemServiceImpl implements CartItemService {
     private final ProductService productService;
 
 
-    //        1.if cart is not exist, create a new cart
-//        2. get the product
-//        3. check if the product already in the cart
-//        4. if yes, then increase the quantity with the requested quantity
-//        5. if no, then initiate a new CartItem entry
+    /**
+     * 1.if cart is not exist, create a new cart
+     * 2. get the product
+     * 3. check if the product already in the cart
+     * 4. if yes, then increase the quantity with the requested quantity
+     * 5. if no, then initiate a new CartItem entry
+     * 6. set the total price of the cartItem
+     * 7. return the cart
+     */
+
     @Override
     public Cart addItemToCart(Long productId, int quantity) {
         log.info("CartItemServiceImpl::addItemToCart, productId: {}, quantity: {}", productId, quantity);
@@ -85,10 +90,12 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     private Cart getCart() {
+        log.info("CartItemServiceImpl::getCart");
         Long foundCartId = cartService.getCartId();
         if (foundCartId == null) {
             return cartService.initializeNewCart();
         }
+
         Cart cart = cartService.getCart();
         log.info("CartItemServiceImpl::getCart, Cart found: {}", cart);
         return cart;
@@ -108,6 +115,5 @@ public class CartItemServiceImpl implements CartItemService {
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
     }
-
 
 }

@@ -1,7 +1,6 @@
 package com.huseynov.restaurant.cart;
 
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
-import com.huseynov.restaurant.shared.exception.InvalidRequestException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +27,8 @@ public class CartItemController {
 
         log.info("CartItemController::addItemToCart, productId: {}, quantity: {}", productId, quantity);
 
-        // If the customer is the owner of the cart( for exists cart )
-        if (cartService.getCartId() != null && !cartService.isCustomerRequestValidForCart()) {
-            throw new InvalidRequestException("Invalid request for cart ");
-        }
+        // if the customer who sent request is not the owner of the cart(for exists cart)
+        cartService.checkCustomerForCart();
 
         CartDTO cart = modelMapper
                 .map(cartItemService.addItemToCart(productId, quantity), CartDTO.class);
@@ -39,15 +36,14 @@ public class CartItemController {
         return ResponseEntity.ok(response);
     }
 
+
     @DeleteMapping("/items/{itemId}")
     ResponseEntity<ApiResponse<CartDTO>> removeItemFromCart(@PathVariable Long itemId) {
 
 
         log.info("CartItemController::removeItemFromCart , :  itemId: {}", itemId);
 
-        if (!cartService.isCustomerRequestValidForCart()) {
-            throw new InvalidRequestException("Invalid request for cart");
-        }
+        cartService.checkCustomerForCart();
 
         CartDTO cartDTO = modelMapper
                 .map(cartItemService.removeItemFromCart(itemId), CartDTO.class);
@@ -65,9 +61,7 @@ public class CartItemController {
 
         log.info("CartItemController::updateItemQuantity, itemId: {}, quantity: {}", itemId, quantity);
 
-        if (!cartService.isCustomerRequestValidForCart()) {
-            throw new InvalidRequestException("Invalid request for cart");
-        }
+        cartService.checkCustomerForCart();
 
         CartDTO cartDTO = modelMapper
                 .map(cartItemService.updateItemQuantity(itemId, quantity), CartDTO.class);

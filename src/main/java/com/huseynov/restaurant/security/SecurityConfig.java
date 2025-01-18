@@ -35,6 +35,7 @@ public class SecurityConfig {
                 request
                         .requestMatchers("/api/v1/hello").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
 
                         .requestMatchers("/api/v1/carts/**").hasAuthority(ROLE_CUSTOMER)
                         .requestMatchers("/api/v1/customer/**").hasAuthority(ROLE_CUSTOMER)
@@ -45,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/products/**").hasAuthority(ROLE_MANAGER)
 
                         .requestMatchers("/api/v1/employees/**").hasAuthority(ROLE_MANAGER)
+//                        .requestMatchers("/api-docs/**").hasAuthority(ROLE_ADMIN)
                         .requestMatchers("/**").hasAuthority(ROLE_ADMIN)   // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated
         );

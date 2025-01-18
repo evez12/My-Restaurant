@@ -10,6 +10,7 @@ import com.huseynov.restaurant.shared.model.Role;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -25,6 +26,7 @@ import java.util.Collection;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final CustomerRepository customerRepo;
     private final EmployeeRepository employeeRepo;
+    private final ModelMapper modelMapper;
 
     @Getter
     private Customer myCustomer;
@@ -43,7 +45,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         } catch (CustomNotFoundException e) {
             log.warn("Not found customer with email: {}", email);
             throw e;
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             log.error("An error occurred while trying to find the customer by email: {}, {}", email, e.getMessage());
             throw new CustomAuthException("An error occurred while trying to find the customer by email", e);
         }
@@ -51,10 +54,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     private User getCustomer(String email) {
+        log.info("CustomerDetailServiceImpl::getCustomer called with: {}", email);
         Customer customer = customerRepo
                 .findCustomerByEmail(email)
                 .orElseThrow(() -> new CustomNotFoundException("Invalid email or password"));
 
+        log.info("CustomerDetailServiceImpl::getCustomer, customer: {}", customer);
         myCustomer = customer; // set the customer id to the field (Customer who sent the request)
         return new User(customer.getEmail(),
                 customer.getPassword(),
