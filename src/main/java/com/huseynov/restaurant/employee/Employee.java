@@ -62,6 +62,14 @@ public class Employee {
         }
     }
 
+    public boolean isDisabled() {
+        return !this.getEmployeeDetail().isEnabled();
+    }
+
+    public boolean isEnabled() {
+        return this.getEmployeeDetail().isEnabled();
+    }
+
     @Override
     public String toString() {
         return "Employee{" +

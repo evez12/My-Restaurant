@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class RegisterRequest {
+
     @NotBlank(message = "Email is required")
     @Size(min = 3, max = 120, message = "Email must be between 3 and 120 characters")
     @Pattern(regexp = "^(.+)@(.+)$", message = "Invalid email")

@@ -1,6 +1,6 @@
-package com.huseynov.restaurant.security;
+package com.huseynov.restaurant.shared;
 
-import com.huseynov.restaurant.customer.CustomerService;
+import com.huseynov.restaurant.customer.AuthCustomerService;
 import com.huseynov.restaurant.employee.EmployeeService;
 import com.huseynov.restaurant.shared.dto.request.LoginRequest;
 import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
@@ -14,10 +14,15 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+
 // This class is responsible for routing the requests to the appropriate service(EmployeeService or CustomerService)
+// based on the email address of the user.
+// If the email address ends with @restaurant.com,
+// then the request is routed to the EmployeeService,
 public class RouterService {
     private final EmployeeService employeeService;
-    private final CustomerService customerService;
+    private final AuthCustomerService authCustomerService;
+
 
     public LoginResponse login(LoginRequest loginRequest) {
         log.info("RouterService::login request ");
@@ -29,7 +34,7 @@ public class RouterService {
         // then it is a customer email
         else {
             log.info("RestaurantService::login Customer login");
-            return customerService.authenticateCustomer(loginRequest);
+            return authCustomerService.authenticateCustomer(loginRequest);
         }
     }
 
@@ -40,7 +45,7 @@ public class RouterService {
             if (request.getEmail().endsWith("@restaurant.com")) {
                 throw new InvalidEmailException("Invalid email address", request.getEmail());
             }
-            return customerService.register(request);
+            return authCustomerService.register(request);
         } catch (InvalidEmailException e) {
             log.error("An error occurred while trying to register with email :{}, {}", request.getEmail(), e.getMessage());
             throw e;

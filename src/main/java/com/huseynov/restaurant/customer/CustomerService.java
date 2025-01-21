@@ -1,19 +1,27 @@
 package com.huseynov.restaurant.customer;
 
-import com.huseynov.restaurant.shared.dto.request.LoginRequest;
-import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
-import com.huseynov.restaurant.shared.dto.response.LoginResponse;
-import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
-import org.springframework.security.core.Authentication;
+import java.util.List;
 
 public interface CustomerService {
-    RegisterResponse register(RegisterRequest request);
 
-    LoginResponse authenticateCustomer(LoginRequest request);
-
-    LoginResponse authenticationProcess(Authentication authentication);
 
     Customer getCustomerById(Long id);
 
+    boolean isEnableCustomer(Customer customer);
+
+    boolean isDisableCustomer(Customer customer);
+
+    Customer getCustomerByEmail(String email);
+
+    List<Customer> getAllCustomers();
+
+    Customer getCustomer();
+
+    Customer getCustomerWithRolesByEmail(String email);
+
+    Customer getCustomerWithRolesById(Long id);
+
+
     void saveCustomer(Customer customer);
+
 }

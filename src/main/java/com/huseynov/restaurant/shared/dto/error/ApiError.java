@@ -22,7 +22,7 @@ public class ApiError {
     LocalDateTime timestamp;
     String message;
     String debugMessage;
-    List<ApiSubError> subErrors = new ArrayList<>();
+    List<ApiSubError> subErrors;
 
     private ApiError() {
         timestamp = LocalDateTime.now();
@@ -51,6 +51,22 @@ public class ApiError {
         this.status = status;
         this.message = message;
         this.debugMessage = ex.getLocalizedMessage();
+    }
+
+    public List<ApiSubError> getSubErrors() {
+        if (this.subErrors == null) {
+            this.subErrors = new ArrayList<>();
+        }
+
+        return subErrors;
+    }
+
+    public void setSubErrors(List<ApiSubError> subErrors) {
+        if (this.subErrors == null) {
+            this.subErrors = new ArrayList<>();
+        }
+
+        this.subErrors = subErrors;
     }
 
     @Override

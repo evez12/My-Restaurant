@@ -1,7 +1,6 @@
 package com.huseynov.restaurant.customer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.huseynov.restaurant.shared.enums.Gender;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -10,12 +9,17 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-class CustomerDTO {
+public class CustomerDTO {
 
+    Long id;
     String name;
     String surname;
     String email;
-    Gender gender;
     String phoneNumber;
+    boolean enabled;
     String address;
+    String gender;
+    String role;
+
+
 }

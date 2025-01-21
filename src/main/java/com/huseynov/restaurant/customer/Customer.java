@@ -12,11 +12,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.NaturalId;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Getter
 @Setter
 @NoArgsConstructor
@@ -61,8 +64,11 @@ public class Customer {
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
+    //    @JsonIgnore
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     Reservation reservation;
+
+    //    @JsonIgnore
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "customer",
@@ -78,6 +84,38 @@ public class Customer {
         this.roles = roles;
     }
 
+    public Customer(Long id, String email, String password, Role role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.roles = addRole(role);
+    }
+
+    public Customer(Long id, String name, String surname, String email, String password,
+                    boolean enabled, String phoneNumber, String address, Gender gender, Role role) {
+        this(id, email, password, role);
+        this.name = name;
+        this.surname = surname;
+        this.enabled = enabled;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.gender = gender;
+    }
+
+    private Set<Role> addRole(Role role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
+
+        this.roles.add(role);
+        return this.roles;
+    }
+
+    public boolean isDisabled() {
+        log.warn("Customer::isDisabled called");
+        return !enabled;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -87,6 +125,7 @@ public class Customer {
                 ", enabled=" + enabled +
                 ", gender=" + gender +
                 ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
                 '}';
     }
 }

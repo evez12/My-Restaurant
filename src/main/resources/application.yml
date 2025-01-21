@@ -14,27 +14,32 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-#    open-in-view: false
+  #    open-in-view: false
   main:
     banner-mode: off
 
 #Logging Configuration
 logging:
   level:
-    root: warn
+    root: info
     org:
       springframework:
-        web: info
+        web: debug
         security: debug
-      hibernate: error
+      hibernate: warn
     com:
       huseynov:
         restaurant: info
     include-aplication-group: false
     inculde-aplication-name: false
 
-# swagger configuration
+# My values
+api:
+  prefix: /api/v1
+frontend:
+  url: http://localhost:3000
+
+## swagger configuration
 springdoc:
   api-docs:
     enabled: true
@@ -42,60 +47,3 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
-
-# My values
-api:
-  prefix: /api/v1
-frontend:
-    url: http://localhost:3000
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

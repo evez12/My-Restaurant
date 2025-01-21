@@ -1,7 +1,7 @@
-package com.huseynov.restaurant.shared.config;
+package com.huseynov.restaurant.config;
 
-import com.huseynov.restaurant.customer.Customer;
-import com.huseynov.restaurant.security.UserDetailsServiceImpl;
+import com.huseynov.restaurant.shared.UserDetailsServiceImpl;
+import com.huseynov.restaurant.shared.UserOfSendingRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class EntityConfig {
     // Bean have been will used (exp: CartServiceImpl...)
     @Bean
     @RequestScope
-    public Customer myCustomer(UserDetailsServiceImpl userDetailsService) {
-        return userDetailsService.getMyCustomer();
+    public UserOfSendingRequest myUser(UserDetailsServiceImpl userDetailsService) {
+        return userDetailsService.getMyUser();
     }
 }

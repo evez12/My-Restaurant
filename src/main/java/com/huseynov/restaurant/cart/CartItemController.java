@@ -36,17 +36,16 @@ public class CartItemController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/items/{id}")
+    ResponseEntity<ApiResponse<CartDTO>> removeItemFromCart(@PathVariable Long id) {
 
-    @DeleteMapping("/items/{itemId}")
-    ResponseEntity<ApiResponse<CartDTO>> removeItemFromCart(@PathVariable Long itemId) {
 
-
-        log.info("CartItemController::removeItemFromCart , :  itemId: {}", itemId);
+        log.info("CartItemController::removeItemFromCart , :  itemId: {}", id);
 
         cartService.checkCustomerForCart();
 
         CartDTO cartDTO = modelMapper
-                .map(cartItemService.removeItemFromCart(itemId), CartDTO.class);
+                .map(cartItemService.removeItemFromCart(id), CartDTO.class);
 
         ApiResponse<CartDTO> response = new ApiResponse<>("Item successfully removed from cart", cartDTO);
         return ResponseEntity.ok(response);

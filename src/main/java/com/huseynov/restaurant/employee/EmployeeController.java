@@ -3,6 +3,7 @@ package com.huseynov.restaurant.employee;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
 import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,12 @@ import java.util.List;
 @RestController()
 @RequestMapping("${api.prefix}/employees")
 @CrossOrigin
-@Slf4j(topic = "EMPLOYEE_CONTROLLER")
+@RequiredArgsConstructor
+@Slf4j()
 class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
 
     @PostMapping("")
     ResponseEntity<ApiResponse<RegisterResponse>> createEmployee(@RequestBody @Valid CreateEmployeeRequest request) {

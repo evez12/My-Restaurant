@@ -19,7 +19,7 @@ public class CartController {
     private final ModelMapper modelMapper;
 
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<ApiResponse<CartDTO>> getCart() {
         log.info("CartController::getCart");
 
@@ -30,7 +30,7 @@ public class CartController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("")
     public ResponseEntity<ApiResponse<CartDTO>> deleteCart() {
         log.info("CartController::deleteCart");
 

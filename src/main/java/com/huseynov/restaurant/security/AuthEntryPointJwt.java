@@ -30,6 +30,6 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
                 "path: " + request.getServletPath() + "; " + authException.getMessage(),
                 authException);
 
-        response.getWriter().write(error.toString());
+        response.getWriter().print(error);
     }
 }

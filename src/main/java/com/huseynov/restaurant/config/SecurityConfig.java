@@ -1,5 +1,7 @@
-package com.huseynov.restaurant.security;
+package com.huseynov.restaurant.config;
 
+import com.huseynov.restaurant.security.AuthEntryPointJwt;
+import com.huseynov.restaurant.security.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +26,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private static final String ROLE_CUSTOMER = "CUSTOMER";
     private static final String ROLE_EMPLOYEE = "EMPLOYEE";
-    private static final String ROLE_MANAGER = "MANAGER";
-    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String ROLE_MANAGER  = "MANAGER" ;
+    private static final String ROLE_ADMIN    = "ADMIN"   ;
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter authTokenFilter;
 
@@ -33,20 +35,23 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
                 request
-                        .requestMatchers("/api/v1/hello").permitAll()
+                        .requestMatchers("/api/v1/hello/**").permitAll()
+
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
+
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll()
 
                         .requestMatchers("/api/v1/carts/**").hasAuthority(ROLE_CUSTOMER)
                         .requestMatchers("/api/v1/customer/**").hasAuthority(ROLE_CUSTOMER)
+
                         .requestMatchers("/api/v1/employee/**").hasAuthority(ROLE_EMPLOYEE)
 
+                        .requestMatchers("/api/v1/customers/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/manager/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/categories/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/products/**").hasAuthority(ROLE_MANAGER)
 
                         .requestMatchers("/api/v1/employees/**").hasAuthority(ROLE_MANAGER)
-//                        .requestMatchers("/api-docs/**").hasAuthority(ROLE_ADMIN)
                         .requestMatchers("/**").hasAuthority(ROLE_ADMIN)   // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated
         );

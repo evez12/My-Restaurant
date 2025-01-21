@@ -1,6 +1,7 @@
 package com.huseynov.restaurant.security;
 
 import com.huseynov.restaurant.shared.exception.CustomAuthException;
+import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,7 +54,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                         .getContext()
                         .setAuthentication(authentication);
             }
-        } catch (Exception e) {
+        }
+        catch (CustomNotFoundException e){
+            log.error("Failed during Set authentication to user: {}", e.getMessage());
+            throw e;
+        }
+
+        catch (Exception e) {
             log.error("Failed during Set authentication to user(doFilterInternal): {}", e.getMessage());
             throw new CustomAuthException("Failed during check jwt token");
         }

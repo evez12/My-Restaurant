@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.security;
+package com.huseynov.restaurant.customer;
 
 import com.huseynov.restaurant.shared.model.Role;
 import lombok.Data;
