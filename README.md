@@ -88,13 +88,5 @@ Organizing the codebase by feature simplifies the transition to a microservices 
    git push origin feature/your-feature-name
    ```
 5. Create a pull request.
-
+...
 ---
-
-## License
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-For more details, visit the repository: [My Restaurant GitHub Repo](https://github.com/evez12/My-Restaurant).
-
