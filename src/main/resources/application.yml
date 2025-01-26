@@ -18,6 +18,7 @@ spring:
   main:
     banner-mode: off
 
+
 #Logging Configuration
 logging:
   level:
@@ -26,6 +27,7 @@ logging:
       springframework:
         web: debug
         security: debug
+      authentication: debug
       hibernate: warn
     com:
       huseynov:

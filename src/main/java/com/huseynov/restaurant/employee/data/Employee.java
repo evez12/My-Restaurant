@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.employee;
+package com.huseynov.restaurant.employee.data;
 
 import com.huseynov.restaurant.shared.model.Role;
 import jakarta.persistence.*;
@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.NaturalId;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,12 +20,14 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 // For N + 1 query problem
-@NamedEntityGraphs(value = {
-        @NamedEntityGraph(
-                name = "employee-detail-graph",
-                attributeNodes = @NamedAttributeNode("employeeDetail")
-        ),
-})
+
+@NamedEntityGraph(
+        name = "employee-detail-role-graph",
+        attributeNodes = {
+                @NamedAttributeNode(value = "roles"),
+                @NamedAttributeNode(value = "employeeDetail")
+        }
+)
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,12 +58,30 @@ public class Employee {
             orphanRemoval = true)
     EmployeeDetail employeeDetail;
 
+    public Employee(Long id, String email,
+                    String name, String surname) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+    }
+
+
     public void setEmployeeDetail(EmployeeDetail employeeDetail) {
         this.employeeDetail = employeeDetail;
         if (employeeDetail != null) {
             employeeDetail.setEmployee(this);
         }
     }
+
+    public Set<Role> addRole(Role role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        }
+        roles.add(role);
+        return roles;
+    }
+
 
     public boolean isDisabled() {
         return !this.getEmployeeDetail().isEnabled();
@@ -77,7 +98,7 @@ public class Employee {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", employeeDetail"+employeeDetail + '\''+
                 '}';
     }
 }

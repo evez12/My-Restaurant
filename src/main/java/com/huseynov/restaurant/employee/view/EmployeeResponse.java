@@ -1,13 +1,10 @@
-package com.huseynov.restaurant.employee;
+package com.huseynov.restaurant.employee.view;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.huseynov.restaurant.shared.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
-import java.math.BigDecimal;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
@@ -16,13 +13,9 @@ import java.math.BigDecimal;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class EmployeeResponse {
 
-    Long employeeId;
+    Long id;
     String name;
     String surname;
     String email;
-    String address;
-    Gender gender = Gender.UNDEFINED;
-    BigDecimal salary = BigDecimal.ZERO;
-    String phoneNumber;
 
 }

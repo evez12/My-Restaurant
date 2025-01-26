@@ -1,6 +1,7 @@
 package com.huseynov.restaurant.customer;
 
-import com.huseynov.restaurant.shared.exception.CustomAuthException;
+import com.huseynov.restaurant.shared.UserOfSendingRequest;
+import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,15 +14,14 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepo;
     private final MyCustomerRepository myCustomerRepository;
-
+    private final UserOfSendingRequest userOfSendingRequest;
 
     @Override
     public Customer getCustomerById(Long id) {
         log.info("CustomerServiceImpl:getCustomerById execution started");
-        return customerRepo
-                .findById(id)
-                .orElseThrow(() -> new CustomAuthException("Customer not found, id: " + id));
-
+        return myCustomerRepository
+                .findCustomerWithRolesById(id)
+                .orElseThrow(() -> new CustomNotFoundException("Customer not found, id: " + id));
     }
 
     @Override
@@ -39,28 +39,35 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("CustomerServiceImpl:getCustomerByEmail execution started");
         return customerRepo
                 .findCustomerByEmail(email)
-                .orElseThrow(() -> new CustomAuthException("Customer not found, email: " + email));
+                .orElseThrow(() -> new CustomNotFoundException("Customer not found, email: " + email));
     }
 
     @Override
     public List<Customer> getAllCustomers() {
         log.info("CustomerServiceImpl:getAllCustomers execution");
         return myCustomerRepository.findAllCustomers().orElseThrow(
-                () -> new CustomAuthException("Customers not found")
+                () -> new CustomNotFoundException("Customers not found")
         );
     }
 
     @Override
     public Customer getCustomer() {
-        return null;
+        log.info("CustomerServiceImpl:getCustomer execution started");
+
+        return myCustomerRepository.findCustomerWithRolesById(userOfSendingRequest.getId())
+                .orElseThrow(
+                        () -> new CustomNotFoundException("Customer not found with id: " + userOfSendingRequest.getId())
+                );
     }
+
+
 
     @Override
     public Customer getCustomerWithRolesByEmail(String email) {
         log.info("CustomerServiceImpl:getCustomerWithRolesByEmail execution started, email: {}", email);
 
         return myCustomerRepository.findCustomerWithRolesByEmail(email).orElseThrow(
-                () -> new CustomAuthException("Customer not found with email: " + email)
+                () -> new CustomNotFoundException("Customer not found with email: " + email)
         );
     }
 
@@ -69,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("CustomerServiceImpl:getCustomerWithRolesById execution started, id: {}", id);
 
         return myCustomerRepository.findCustomerWithRolesById(id).orElseThrow(
-                () -> new CustomAuthException("Customer not found with id: " + id)
+                () -> new CustomNotFoundException("Customer not found with id: " + id)
         );
 
     }

@@ -1,24 +1,16 @@
 package com.huseynov.restaurant.employee;
 
-import com.huseynov.restaurant.shared.dto.request.LoginRequest;
-import com.huseynov.restaurant.shared.dto.response.LoginResponse;
-import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
-import org.springframework.security.core.Authentication;
+import com.huseynov.restaurant.employee.data.Employee;
 
 import java.util.List;
 
 public interface EmployeeService {
-    RegisterResponse createEmployee(CreateEmployeeRequest request);
 
-    LoginResponse authenticateEmployee(LoginRequest request);
+    List<Employee> getAllEmployees();
 
-    LoginResponse authenticationProcess(Authentication authentication);
+    Employee getEmployeeById(Long id);
 
-    RegisterResponse generateRegisterResponse(Employee employee, String email, String password);
-
-    List<EmployeeResponse> getAllEmployees();
-
-    EmployeeResponse getEmployeeById(Long id);
+    Employee getEmployee();
 }
 
 

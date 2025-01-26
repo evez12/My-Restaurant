@@ -1,6 +1,5 @@
-package com.huseynov.restaurant.security;
+package com.huseynov.restaurant.shared;
 
-import com.huseynov.restaurant.shared.RouterService;
 import com.huseynov.restaurant.shared.dto.request.LoginRequest;
 import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController()
 @CrossOrigin()
 @RequiredArgsConstructor
-@Slf4j(topic = "AUTH_CONTROLLER")
+@Slf4j()
 @RequestMapping("${api.prefix}/auth")
 public class AuthController {
     private final RouterService routerService;

@@ -54,10 +54,9 @@ public class ApiError {
     }
 
     public List<ApiSubError> getSubErrors() {
-        if (this.subErrors == null) {
-            this.subErrors = new ArrayList<>();
+        if (subErrors == null) {
+            subErrors = new ArrayList<>();
         }
-
         return subErrors;
     }
 
@@ -65,7 +64,6 @@ public class ApiError {
         if (this.subErrors == null) {
             this.subErrors = new ArrayList<>();
         }
-
         this.subErrors = subErrors;
     }
 

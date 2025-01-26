@@ -19,12 +19,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Entity
 @Slf4j
 @Getter
 @Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
 @Table(name = "customer")
 @NamedEntityGraph(
         name = "customer-role",
@@ -78,22 +78,33 @@ public class Customer {
     List<Order> orders;
 
     public Customer(Long id, String email, String password, Set<Role> roles) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
+        this(id, email, password);
         this.roles = roles;
     }
 
-    public Customer(Long id, String email, String password, Role role) {
+    public Customer(Long id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
+    }
+
+
+    public Customer(Long id, String name, String surname, String email, String password,
+                    boolean enabled, String phoneNumber, String address, Gender gender, Role role) {
+        this(id, email, password);
+        this.name = name;
+        this.surname = surname;
+        this.enabled = enabled;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.gender = gender;
         this.roles = addRole(role);
     }
 
     public Customer(Long id, String name, String surname, String email, String password,
-                    boolean enabled, String phoneNumber, String address, Gender gender, Role role) {
-        this(id, email, password, role);
+                    boolean enabled, String phoneNumber, String address, Gender gender) {
+
+        this(id, email, password);
         this.name = name;
         this.surname = surname;
         this.enabled = enabled;

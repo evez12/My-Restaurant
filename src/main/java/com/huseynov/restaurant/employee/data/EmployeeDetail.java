@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.employee;
+package com.huseynov.restaurant.employee.data;
 
 import com.huseynov.restaurant.shared.enums.Gender;
 import jakarta.persistence.*;

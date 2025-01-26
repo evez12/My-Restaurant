@@ -2,8 +2,8 @@ package com.huseynov.restaurant.shared;
 
 import com.huseynov.restaurant.customer.Customer;
 import com.huseynov.restaurant.customer.MyCustomerRepository;
-import com.huseynov.restaurant.employee.Employee;
-import com.huseynov.restaurant.employee.EmployeeRepository;
+import com.huseynov.restaurant.employee.data.Employee;
+import com.huseynov.restaurant.employee.data.EmployeeRepository;
 import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
 import com.huseynov.restaurant.shared.exception.InvalidRequestException;
 import com.huseynov.restaurant.shared.model.Role;
@@ -42,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 return getCustomer(email);
             }
         } catch (CustomNotFoundException | InvalidRequestException e) {
-            log.warn("Not found customer with email: {}", email);
+            log.warn("Not found customer with email: {}, message: {}", email,e.getMessage());
             throw e;
         }
 

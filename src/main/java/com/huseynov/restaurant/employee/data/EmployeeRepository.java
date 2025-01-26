@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.employee;
+package com.huseynov.restaurant.employee.data;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.EntityGraph;

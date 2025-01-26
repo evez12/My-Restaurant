@@ -1,7 +1,7 @@
 package com.huseynov.restaurant.shared;
 
 import com.huseynov.restaurant.customer.AuthCustomerService;
-import com.huseynov.restaurant.employee.EmployeeService;
+import com.huseynov.restaurant.employee.AuthEmployeeService;
 import com.huseynov.restaurant.shared.dto.request.LoginRequest;
 import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
 import com.huseynov.restaurant.shared.dto.response.LoginResponse;
@@ -14,13 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-
 // This class is responsible for routing the requests to the appropriate service(EmployeeService or CustomerService)
 // based on the email address of the user.
 // If the email address ends with @restaurant.com,
 // then the request is routed to the EmployeeService,
 public class RouterService {
-    private final EmployeeService employeeService;
+    private final AuthEmployeeService employeeService;
     private final AuthCustomerService authCustomerService;
 
 

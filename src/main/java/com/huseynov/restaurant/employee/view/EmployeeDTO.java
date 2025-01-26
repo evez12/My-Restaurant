@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.employee;
+package com.huseynov.restaurant.employee.view;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-class EmployeeDTO {
-    Long employeeId;
+public class EmployeeDTO {
+    Long id;
     String name;
     String surname;
     String email;
+    EmployeeDetailDTO employeeDetailDTO;
+
 }

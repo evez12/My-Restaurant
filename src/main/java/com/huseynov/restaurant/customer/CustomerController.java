@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +36,13 @@ class CustomerController {
         ApiResponse<CustomerDTO> response = new ApiResponse<>("Successfully get customer's profile", customer);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("")
+    public ResponseEntity<ApiResponse<CustomerDTO>> updatedCustomer(){
+        log.info("CustomerController::updatedCustomer");
+//        CustomerDTO customer = modelMapper.map(customerService.)
+        return null;
     }
 
 

@@ -22,7 +22,9 @@ public class RegisterRequest {
     @Size(min = 4, max = 100, message = "Password must be between 4 and 100 characters")
     private String password;
 
+    @NotBlank(message = "Name is required")
     private String name;
+    @NotBlank(message = "Surname is required")
     private String surname;
     private Gender gender = Gender.UNDEFINED;
     private String phoneNumber;

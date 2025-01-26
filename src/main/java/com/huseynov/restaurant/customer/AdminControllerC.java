@@ -1,8 +1,5 @@
-package com.huseynov.restaurant.employee;
+package com.huseynov.restaurant.customer;
 
-import com.huseynov.restaurant.customer.Customer;
-import com.huseynov.restaurant.customer.CustomerDTO;
-import com.huseynov.restaurant.customer.CustomerService;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +14,10 @@ import java.util.List;
 @CrossOrigin()
 @RequiredArgsConstructor
 @Slf4j()
-public class AdminController {
+public class AdminControllerC {
     private final CustomerService customerService;
     private final ModelMapper modelMapper;
+
 
     @GetMapping("/customers")
     public ResponseEntity<ApiResponse<List<CustomerDTO>>> getAllCustomers() {
@@ -39,13 +37,12 @@ public class AdminController {
 
     @GetMapping("/customers/{id}")
     public ResponseEntity<ApiResponse<CustomerDTO>> getCustomerById(@PathVariable Long id) {
-        log.info("CustomerController::getCustomerById");
+        log.info("CustomerController::getCustomerById, id: {}", id);
 
         CustomerDTO customer = modelMapper.map(customerService.getCustomerById(id), CustomerDTO.class);
         ApiResponse<CustomerDTO> response = new ApiResponse<>("Successfully get customer by id", customer);
 
         return ResponseEntity.ok(response);
     }
-
 
 }

@@ -24,7 +24,7 @@ public class CreateEmployeeRequest {
 
     @NotBlank(message = "Email shouldn't be empty")
     @Size(min = 3, max = 100, message = "Email must be between 3 and 100 characters")
-    @Pattern(regexp = "^(.+)@(.+)$", message = "Invalid email pattern") // Email pattern (exp: a@b)
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@restaurant\\.com$", message = "Email must end with @restaurant.com")
     String email;
 
     @Size(min = 4, message = "Password must be at least 4 characters")

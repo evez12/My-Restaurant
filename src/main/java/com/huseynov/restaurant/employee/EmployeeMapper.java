@@ -1,14 +1,19 @@
 package com.huseynov.restaurant.employee;
 
+import com.huseynov.restaurant.employee.data.Employee;
+import com.huseynov.restaurant.employee.data.EmployeeDetail;
+import com.huseynov.restaurant.employee.view.EmployeeDTO;
+import com.huseynov.restaurant.employee.view.EmployeeDetailDTO;
+import com.huseynov.restaurant.employee.view.EmployeeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @Slf4j
-class EmployeeMapper {
+public class EmployeeMapper {
 
 
-    public static Employee convertCreateEmployeeRequestToEmployee(CreateEmployeeRequest request) {
+    public Employee createEmployeeRequestToEntity(CreateEmployeeRequest request) {
         Employee employee = new Employee();
         employee.setName(request.getName());
         employee.setSurname(request.getSurname());
@@ -21,24 +26,37 @@ class EmployeeMapper {
         employeeDetail.setSalary(request.getSalary());
         employee.setEmployeeDetail(employeeDetail);
         log.info("EmployeeMapper::convertCreateEmployeeRequestToEmployee employee {}", employee);
-        log.info("EmployeeMapper::convertCreateEmployeeRequestToEmployee employeeDetail {}", employee.getEmployeeDetail());
         return employee;
     }
 
-    public EmployeeResponse convertEntityToResponse(Employee employee) {
-        EmployeeResponse response = new EmployeeResponse();
-        response.setEmployeeId(employee.getId());
+    public EmployeeDTO entityToDTO(Employee employee) {
+        EmployeeDTO response = new EmployeeDTO();
+        response.setId(employee.getId());
         response.setName(employee.getName());
         response.setSurname(employee.getSurname());
         response.setEmail(employee.getEmail());
 
-        response.setAddress(employee.getEmployeeDetail().getAddress());
-        response.setPhoneNumber(employee.getEmployeeDetail().getPhoneNumber());
-        response.setSalary(employee.getEmployeeDetail().getSalary());
-        response.setGender(employee.getEmployeeDetail().getGender());
+        EmployeeDetailDTO employeeDetailDTO = new EmployeeDetailDTO();
+        employeeDetailDTO.setDetailId(employee.getEmployeeDetail().getId());
+        employeeDetailDTO.setEnabled(employee.getEmployeeDetail().isEnabled());
+        employeeDetailDTO.setAddress(employee.getEmployeeDetail().getAddress());
+        employeeDetailDTO.setPhoneNumber(employee.getEmployeeDetail().getPhoneNumber());
+        employeeDetailDTO.setSalary(employee.getEmployeeDetail().getSalary());
+
+        response.setEmployeeDetailDTO(employeeDetailDTO);
+        log.info("EmployeeMapper::entityToDTO response {}", response);
 
         return response;
     }
 
+    public EmployeeResponse entityToResponse(Employee employee) {
+        EmployeeResponse response = new EmployeeResponse();
+
+        response.setId(employee.getId());
+        response.setName(employee.getName());
+        response.setSurname(employee.getSurname());
+        response.setEmail(employee.getEmail());
+        return response;
+    }
 
 }

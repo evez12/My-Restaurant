@@ -3,9 +3,13 @@ package com.huseynov.restaurant.config;
 import com.huseynov.restaurant.security.AuthEntryPointJwt;
 import com.huseynov.restaurant.security.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -26,8 +30,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private static final String ROLE_CUSTOMER = "CUSTOMER";
     private static final String ROLE_EMPLOYEE = "EMPLOYEE";
-    private static final String ROLE_MANAGER  = "MANAGER" ;
-    private static final String ROLE_ADMIN    = "ADMIN"   ;
+    private static final String ROLE_MANAGER = "MANAGER";
+    private static final String ROLE_ADMIN = "ADMIN";
     private final AuthEntryPointJwt unauthorizedHandler;
     private final AuthTokenFilter authTokenFilter;
 
@@ -46,12 +50,13 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/v1/employee/**").hasAuthority(ROLE_EMPLOYEE)
 
-                        .requestMatchers("/api/v1/customers/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/manager/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/categories/**").hasAuthority(ROLE_MANAGER)
                         .requestMatchers("/api/v1/products/**").hasAuthority(ROLE_MANAGER)
 
-                        .requestMatchers("/api/v1/employees/**").hasAuthority(ROLE_MANAGER)
+                        .requestMatchers(HttpMethod.GET, "/api/v1/admin/employees/**").hasAuthority(ROLE_MANAGER)
+                        .requestMatchers(HttpMethod.GET, "/api/v1/admin/customers/**").hasAuthority(ROLE_MANAGER)
+
                         .requestMatchers("/**").hasAuthority(ROLE_ADMIN)   // this should be the last line
                         .anyRequest().authenticated() // any other request should be authenticated
         );
@@ -81,6 +86,12 @@ public class SecurityConfig {
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
+
+    @Bean
+    public AuthenticationEventPublisher authenticationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
+    }
+
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
