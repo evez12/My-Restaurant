@@ -1,7 +1,7 @@
 package com.huseynov.restaurant.cart;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.huseynov.restaurant.customer.Customer;
+import com.huseynov.restaurant.customer.data.Customer;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

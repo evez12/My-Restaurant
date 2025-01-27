@@ -17,6 +17,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("Select e from Employee e join fetch  e.roles join fetch e.employeeDetail where e.email=:email")
     Optional<Employee> findEmployeeByEmail(@NonNull String email);
 
+    @Query("Select e from Employee e join fetch  e.roles join fetch e.employeeDetail where e.id=:id")
+    Optional<Employee> findEmployeeWithRolesAndEmployeeDetailById(Long id);
+
     @EntityGraph(value = "employee-detail-graph", type = EntityGraph.EntityGraphType.LOAD)
     @NonNull
     List<Employee> findAll();

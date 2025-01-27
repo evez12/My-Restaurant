@@ -5,13 +5,15 @@ import com.huseynov.restaurant.employee.data.EmployeeDetail;
 import com.huseynov.restaurant.employee.view.EmployeeDTO;
 import com.huseynov.restaurant.employee.view.EmployeeDetailDTO;
 import com.huseynov.restaurant.employee.view.EmployeeResponse;
+import com.huseynov.restaurant.shared.model.Role;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 @Slf4j
 public class EmployeeMapper {
-
 
     public Employee createEmployeeRequestToEntity(CreateEmployeeRequest request) {
         Employee employee = new Employee();
@@ -36,14 +38,26 @@ public class EmployeeMapper {
         response.setSurname(employee.getSurname());
         response.setEmail(employee.getEmail());
 
-        EmployeeDetailDTO employeeDetailDTO = new EmployeeDetailDTO();
-        employeeDetailDTO.setDetailId(employee.getEmployeeDetail().getId());
-        employeeDetailDTO.setEnabled(employee.getEmployeeDetail().isEnabled());
-        employeeDetailDTO.setAddress(employee.getEmployeeDetail().getAddress());
-        employeeDetailDTO.setPhoneNumber(employee.getEmployeeDetail().getPhoneNumber());
-        employeeDetailDTO.setSalary(employee.getEmployeeDetail().getSalary());
+        if (employee.getEmployeeDetail() != null) {
+            EmployeeDetailDTO employeeDetailDTO = new EmployeeDetailDTO();
+            employeeDetailDTO.setDetailId(employee.getEmployeeDetail().getId());
+            employeeDetailDTO.setEnabled(employee.getEmployeeDetail().isEnabled());
+            employeeDetailDTO.setAddress(employee.getEmployeeDetail().getAddress());
+            employeeDetailDTO.setPhoneNumber(employee.getEmployeeDetail().getPhoneNumber());
+            employeeDetailDTO.setSalary(employee.getEmployeeDetail().getSalary());
+            employeeDetailDTO.setGender(employee.getEmployeeDetail().getGender().toString());
+            response.setEmployeeDetailDTO(employeeDetailDTO);
+        }
 
-        response.setEmployeeDetailDTO(employeeDetailDTO);
+        if (employee.getRoles() != null) {
+            List<String> rolesName = employee
+                    .getRoles()
+                    .stream()
+                    .map(Role::getName)
+                    .toList();
+            response.setRoles(rolesName);
+        }
+
         log.info("EmployeeMapper::entityToDTO response {}", response);
 
         return response;

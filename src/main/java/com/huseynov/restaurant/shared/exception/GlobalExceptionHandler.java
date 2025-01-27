@@ -56,6 +56,16 @@ public class GlobalExceptionHandler {
         return new ApiError(HttpStatus.UNAUTHORIZED, exception.getMessage());
     }
 
+    @ExceptionHandler(InvalidEmailException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleInvalidEmailException(InvalidEmailException exception) {
+        log.info("Handling InvalidEmailException: {}", exception.getMessage());
+        ApiError error = new ApiError(HttpStatus.BAD_REQUEST, "Validation errors", exception);
+        ApiValidationError subError = new ApiValidationError("email", exception.getMessage(), exception.getRejectedValue());
+        error.getSubErrors().add(subError);
+        return error;
+    }
+
     @ExceptionHandler(InvalidRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleInvalidRequestException(InvalidRequestException exception) {

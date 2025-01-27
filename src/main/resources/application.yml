@@ -31,7 +31,7 @@ logging:
       hibernate: warn
     com:
       huseynov:
-        restaurant: info
+        restaurant: debug
     include-aplication-group: false
     inculde-aplication-name: false
 

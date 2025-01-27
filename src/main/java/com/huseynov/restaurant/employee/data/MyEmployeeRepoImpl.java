@@ -42,30 +42,4 @@ public class MyEmployeeRepoImpl implements MyEmployeeRepo {
         }
     }
 
-    @Override
-    public Optional<Employee> findEmployeeWithRolesByEmail(String email) {
-        try {
-            TypedQuery<Employee> query = entityManager.createQuery(
-                    "SELECT e FROM Employee e join e.employeeDetail join e.roles WHERE e.email =: myEmail ", Employee.class
-            );
-            query.setParameter("myEmail", email);
-            return Optional.ofNullable(query.getSingleResult());
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public Optional<Employee> findEmployeeWithRolesById(Long id) {
-        try {
-            TypedQuery<Employee> query = entityManager.createQuery(
-                    "SELECT e FROM Employee e join e.employeeDetail join e.roles WHERE e.id =: id ", Employee.class
-            );
-            query.setParameter("id", id);
-            return Optional.ofNullable(query.getSingleResult());
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
-
-    }
 }

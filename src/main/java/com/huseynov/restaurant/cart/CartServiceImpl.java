@@ -1,6 +1,6 @@
 package com.huseynov.restaurant.cart;
 
-import com.huseynov.restaurant.customer.Customer;
+import com.huseynov.restaurant.customer.data.Customer;
 import com.huseynov.restaurant.customer.CustomerService;
 import com.huseynov.restaurant.shared.UserOfSendingRequest;
 import com.huseynov.restaurant.shared.exception.CustomNotFoundException;

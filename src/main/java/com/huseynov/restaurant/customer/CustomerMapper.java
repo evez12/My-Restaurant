@@ -1,5 +1,6 @@
 package com.huseynov.restaurant.customer;
 
+import com.huseynov.restaurant.customer.data.Customer;
 import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
 
 public class CustomerMapper {

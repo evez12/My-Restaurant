@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @NoArgsConstructor
@@ -17,5 +19,6 @@ public class EmployeeDTO {
     String surname;
     String email;
     EmployeeDetailDTO employeeDetailDTO;
+    List<String> roles;
 
 }

@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class CartItemController {
     private final CartItemService cartItemService;
     private final CartService cartService;
-    private final ModelMapper modelMapper;
-
 
     @PostMapping("/items")
     ResponseEntity<ApiResponse<CartDTO>> addItemToCart(@RequestParam Long productId,
@@ -30,24 +27,9 @@ public class CartItemController {
         // if the customer who sent request is not the owner of the cart(for exists cart)
         cartService.checkCustomerForCart();
 
-        CartDTO cart = modelMapper
-                .map(cartItemService.addItemToCart(productId, quantity), CartDTO.class);
+        CartDTO cart = cartItemService.addItemToCart(productId, quantity);
         ApiResponse<CartDTO> response = new ApiResponse<>("Item successfully added to cart", cart);
-        return ResponseEntity.ok(response);
-    }
-
-    @DeleteMapping("/items/{id}")
-    ResponseEntity<ApiResponse<CartDTO>> removeItemFromCart(@PathVariable Long id) {
-
-
-        log.info("CartItemController::removeItemFromCart , :  itemId: {}", id);
-
-        cartService.checkCustomerForCart();
-
-        CartDTO cartDTO = modelMapper
-                .map(cartItemService.removeItemFromCart(id), CartDTO.class);
-
-        ApiResponse<CartDTO> response = new ApiResponse<>("Item successfully removed from cart", cartDTO);
+        log.info("CartItemController:addItemToCart response: {}", response);
         return ResponseEntity.ok(response);
     }
 
@@ -62,10 +44,25 @@ public class CartItemController {
 
         cartService.checkCustomerForCart();
 
-        CartDTO cartDTO = modelMapper
-                .map(cartItemService.updateItemQuantity(itemId, quantity), CartDTO.class);
+        CartDTO cartDTO = cartItemService.updateItemQuantity(itemId, quantity);
 
         ApiResponse<CartDTO> response = new ApiResponse<>("Item quantity successfully updated", cartDTO);
+        log.info("CartItemController:updatedItemQuantity response: {}", response);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/items/{id}")
+    ResponseEntity<ApiResponse<CartDTO>> removeItemFromCart(@PathVariable Long id) {
+
+
+        log.info("CartItemController::removeItemFromCart , :  itemId: {}", id);
+
+        cartService.checkCustomerForCart();
+
+        CartDTO cartDTO = cartItemService.removeItemFromCart(id);
+
+        ApiResponse<CartDTO> response = new ApiResponse<>("Item successfully removed from cart", cartDTO);
+        log.info("CartItemController:removeItemFromCart response: {}", response);
         return ResponseEntity.ok(response);
     }
 

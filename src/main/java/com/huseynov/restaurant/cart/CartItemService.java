@@ -1,14 +1,11 @@
 package com.huseynov.restaurant.cart;
 
-import java.util.Optional;
-
 public interface CartItemService {
 
-    Cart addItemToCart(Long productId, int quantity);
+    CartDTO addItemToCart(Long productId, int quantity);
 
-    Optional<Cart> removeItemFromCart(Long itemId);
+    CartDTO removeItemFromCart(Long itemId);
 
-    Optional<Cart> updateItemQuantity(Long itemId, int quantity);
-
+    CartDTO updateItemQuantity(Long itemId, int quantity);
 
 }

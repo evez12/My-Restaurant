@@ -1,9 +1,11 @@
-package com.huseynov.restaurant.customer;
+package com.huseynov.restaurant.customer.view;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,8 +20,7 @@ public class CustomerDTO {
     String phoneNumber;
     boolean enabled;
     String address;
+    List<String> role;
     String gender;
-    String role;
-
 
 }

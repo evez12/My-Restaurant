@@ -5,9 +5,8 @@ import com.huseynov.restaurant.product.ProductService;
 import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,7 +15,7 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final CartService cartService;
     private final ProductService productService;
-
+    private final ModelMapper modelMapper;
 
     /**
      * 1.if cart is not exist, create a new cart
@@ -29,7 +28,7 @@ public class CartItemServiceImpl implements CartItemService {
      */
 
     @Override
-    public Cart addItemToCart(Long productId, int quantity) {
+    public CartDTO addItemToCart(Long productId, int quantity) {
         log.info("CartItemServiceImpl::addItemToCart, productId: {}, quantity: {}", productId, quantity);
         Cart cart = getCart();
 
@@ -45,12 +44,12 @@ public class CartItemServiceImpl implements CartItemService {
         cartItem.setTotalPrice();
         cart.addItem(cartItem);
         cartItemRepository.save(cartItem);
-        return cartService.saveCart(cart);
+        return modelMapper.map(cartService.saveCart(cart), CartDTO.class);
 
     }
 
     @Override
-    public Optional<Cart> removeItemFromCart(Long itemId) {
+    public CartDTO removeItemFromCart(Long itemId) {
         log.info("CartItemServiceImpl::removeItemFromCart , itemId: {}", itemId);
 
         Cart cart = cartService.getCart();
@@ -60,14 +59,14 @@ public class CartItemServiceImpl implements CartItemService {
 
         if (cart.getItems().isEmpty()) {
             cartService.deleteCart();
-            return Optional.empty();
+            return new CartDTO();
         }
 
-        return Optional.of(cartService.saveCart(cart));
+        return modelMapper.map(cart, CartDTO.class);
     }
 
     @Override
-    public Optional<Cart> updateItemQuantity(Long itemId, int quantity) {
+    public CartDTO updateItemQuantity(Long itemId, int quantity) {
         if (quantity == 0) {
             return removeItemFromCart(itemId);
         }
@@ -75,7 +74,7 @@ public class CartItemServiceImpl implements CartItemService {
         Cart cart = cartService.getCart();
         CartItem cartItem = getCartItem(cart, itemId);
         cart.updateItem(cartItem, quantity);
-        return Optional.of(cartService.saveCart(cart));
+        return modelMapper.map(cartService.saveCart(cart), CartDTO.class);
     }
 
 

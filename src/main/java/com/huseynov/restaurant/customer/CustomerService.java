@@ -1,5 +1,9 @@
 package com.huseynov.restaurant.customer;
 
+import com.huseynov.restaurant.customer.data.Customer;
+import com.huseynov.restaurant.customer.view.CustomerDTO;
+import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
+
 import java.util.List;
 
 public interface CustomerService {
@@ -7,20 +11,17 @@ public interface CustomerService {
 
     Customer getCustomerById(Long id);
 
-    boolean isEnableCustomer(Customer customer);
+    CustomerDTO getCustomerByEmail(String email);
 
-    boolean isDisableCustomer(Customer customer);
+    List<CustomerDTO> getAllCustomers();
 
-    Customer getCustomerByEmail(String email);
+    CustomerDTO getCustomer();
 
-    List<Customer> getAllCustomers();
+    CustomerDTO getCustomerWithRolesByEmail(String email);
 
-    Customer getCustomer();
+    CustomerDTO getCustomerWithRolesById(Long id);
 
-    Customer getCustomerWithRolesByEmail(String email);
-
-    Customer getCustomerWithRolesById(Long id);
-
+    CustomerDTO updateCustomer(RegisterRequest request);
 
     void saveCustomer(Customer customer);
 

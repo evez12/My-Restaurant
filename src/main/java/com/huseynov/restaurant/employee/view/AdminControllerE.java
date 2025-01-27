@@ -2,9 +2,7 @@ package com.huseynov.restaurant.employee.view;
 
 import com.huseynov.restaurant.employee.AuthEmployeeService;
 import com.huseynov.restaurant.employee.CreateEmployeeRequest;
-import com.huseynov.restaurant.employee.EmployeeMapper;
 import com.huseynov.restaurant.employee.EmployeeService;
-import com.huseynov.restaurant.employee.data.Employee;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
 import com.huseynov.restaurant.shared.dto.response.RegisterResponse;
 import jakarta.validation.Valid;
@@ -22,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j()
 public class AdminControllerE {
-    private final EmployeeMapper employeeMapper;
     private final EmployeeService employeeService;
     private final AuthEmployeeService authEmployeeService;
 
@@ -38,7 +35,8 @@ public class AdminControllerE {
                 .status("Employee created successfully")
                 .results(employee)
                 .build();
-        log.info("EmployeeController::createEmployee response employee, {}", employee);
+
+        log.info("EmployeeController::createEmployee response: {}", employee);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -47,31 +45,28 @@ public class AdminControllerE {
     ResponseEntity<ApiResponse<EmployeeDTO>> getEmployeeById(@PathVariable Long id) {
         log.info("AdminControllerE::getEmployeeById, id: {}", id);
 
-        Employee employeeDB = employeeService.getEmployeeById(id);
-        log.info("EmployeeDB: {}", employeeDB);
-
-        EmployeeDTO employee = employeeMapper.entityToDTO(employeeDB);
+        EmployeeDTO employee = employeeService.getEmployeeById(id);
 
         ApiResponse<EmployeeDTO> response = ApiResponse.<EmployeeDTO>builder()
                 .status("Employee found successfully")
                 .results(employee)
                 .build();
+
+        log.info("AdminControllerE:getEmployeeById response: {}", response);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/employees")
-    ResponseEntity<ApiResponse<List<EmployeeResponse>>> getAllEmployees() {
-        log.info("AdminControllerE::getAllEmployees");
-        List<Employee> employeesDB = employeeService.getAllEmployees();
-
-        List<EmployeeResponse> employees = employeesDB.stream()
-                .map(employeeMapper::entityToResponse)
-                .toList();
+    ResponseEntity<ApiResponse<List<EmployeeResponse>>> getEmployees() {
+        log.info("AdminControllerE::getAllEmployees execution started");
+        List<EmployeeResponse> employees = employeeService.getAllEmployees();
 
         ApiResponse<List<EmployeeResponse>> response = ApiResponse.<List<EmployeeResponse>>builder()
-                .status("All Employees found successfully")
+                .status("Get all Employees successfully")
                 .results(employees)
                 .build();
+
+        log.info("AdminControllerE:getEmployees response: {}", response);
         return ResponseEntity.ok(response);
     }
 

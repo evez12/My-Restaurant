@@ -1,6 +1,6 @@
 package com.huseynov.restaurant.order;
 
-import com.huseynov.restaurant.customer.Customer;
+import com.huseynov.restaurant.customer.data.Customer;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

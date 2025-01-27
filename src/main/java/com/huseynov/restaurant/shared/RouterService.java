@@ -24,7 +24,7 @@ public class RouterService {
 
 
     public LoginResponse login(LoginRequest loginRequest) {
-        log.info("RouterService::login request ");
+        log.info("RouterService::login request");
         // Check if the email is an employee email
         if (loginRequest.getEmail().endsWith("@restaurant.com")) {
             log.info("RouterService::login Employee login");

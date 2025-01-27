@@ -1,9 +1,9 @@
-package com.huseynov.restaurant.customer;
+package com.huseynov.restaurant.customer.view;
 
+import com.huseynov.restaurant.customer.CustomerService;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,31 +16,25 @@ import java.util.List;
 @Slf4j()
 public class AdminControllerC {
     private final CustomerService customerService;
-    private final ModelMapper modelMapper;
-
 
     @GetMapping("/customers")
     public ResponseEntity<ApiResponse<List<CustomerDTO>>> getAllCustomers() {
-        log.info("CustomerController::getAllCustomers");
+        log.info("AdminControllerC::getAllCustomers execution started");
 
-        List<Customer> customersDB = customerService.getAllCustomers();
-
-        List<CustomerDTO> customers = customersDB.stream()
-                .map(customer -> modelMapper.map(customer, CustomerDTO.class))
-                .toList();
-
+        List<CustomerDTO> customers = customerService.getAllCustomers();
         ApiResponse<List<CustomerDTO>> response = new ApiResponse<>("Successfully get all customers", customers);
+        log.info("AdminControllerC:getAllCustomers response: {}", response);
 
         return ResponseEntity.ok(response);
     }
 
-
     @GetMapping("/customers/{id}")
     public ResponseEntity<ApiResponse<CustomerDTO>> getCustomerById(@PathVariable Long id) {
-        log.info("CustomerController::getCustomerById, id: {}", id);
+        log.info("AdminControllerC::getCustomerById execution started, id: {}", id);
 
-        CustomerDTO customer = modelMapper.map(customerService.getCustomerById(id), CustomerDTO.class);
+        CustomerDTO customer = customerService.getCustomerWithRolesById(id);
         ApiResponse<CustomerDTO> response = new ApiResponse<>("Successfully get customer by id", customer);
+        log.info("AdminControllerC::getCustomerById response: {}", response);
 
         return ResponseEntity.ok(response);
     }

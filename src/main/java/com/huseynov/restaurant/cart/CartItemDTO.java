@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CartItemDTO {
 
+    String productName;
     private Long itemId;
     private Long productId;
     private int quantity;

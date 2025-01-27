@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.customer;
+package com.huseynov.restaurant.customer.data;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;

@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.customer;
+package com.huseynov.restaurant.customer.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.huseynov.restaurant.cart.Cart;
@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.NaturalId;
 
 import java.util.HashSet;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Slf4j
 @Getter
 @Setter
 @NoArgsConstructor
@@ -113,7 +111,7 @@ public class Customer {
         this.gender = gender;
     }
 
-    private Set<Role> addRole(Role role) {
+    public Set<Role> addRole(Role role) {
         if (roles == null) {
             roles = new HashSet<>();
         }
@@ -123,7 +121,6 @@ public class Customer {
     }
 
     public boolean isDisabled() {
-        log.warn("Customer::isDisabled called");
         return !enabled;
     }
 

@@ -1,8 +1,8 @@
 package com.huseynov.restaurant.shared;
 
-import com.huseynov.restaurant.customer.Customer;
-import com.huseynov.restaurant.customer.CustomerDTO;
-import com.huseynov.restaurant.customer.MyCustomerRepository;
+import com.huseynov.restaurant.customer.data.Customer;
+import com.huseynov.restaurant.customer.view.CustomerDTO;
+import com.huseynov.restaurant.customer.data.MyCustomerRepository;
 import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

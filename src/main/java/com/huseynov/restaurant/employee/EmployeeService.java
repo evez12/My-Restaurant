@@ -1,16 +1,17 @@
 package com.huseynov.restaurant.employee;
 
-import com.huseynov.restaurant.employee.data.Employee;
+import com.huseynov.restaurant.employee.view.EmployeeDTO;
+import com.huseynov.restaurant.employee.view.EmployeeResponse;
 
 import java.util.List;
 
 public interface EmployeeService {
 
-    List<Employee> getAllEmployees();
+    List<EmployeeResponse> getAllEmployees();
 
-    Employee getEmployeeById(Long id);
+    EmployeeDTO getEmployeeById(Long id);
 
-    Employee getEmployee();
+    EmployeeDTO getEmployee();
 }
 
 

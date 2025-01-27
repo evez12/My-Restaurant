@@ -1,5 +1,7 @@
 package com.huseynov.restaurant.customer;
 
+import com.huseynov.restaurant.customer.data.Customer;
+import com.huseynov.restaurant.customer.data.CustomerRepository;
 import com.huseynov.restaurant.security.AuthService;
 import com.huseynov.restaurant.shared.dto.request.LoginRequest;
 import com.huseynov.restaurant.shared.dto.request.RegisterRequest;
@@ -30,29 +32,32 @@ public class AuthCustomerServiceImpl implements AuthCustomerService {
 
     @Override
     public LoginResponse authenticateCustomer(LoginRequest request) {
-        log.info("CustomerServiceImpl:authenticateCustomer execution started");
+        Authentication authentication;
         try {
-
-            Authentication authentication = authService.authentication(request.getEmail(), request.getPassword());
-            return authenticationProcess(authentication);
-        } catch (BadCredentialsException e) {
-            log.error("Error in authentication : {}", e.getMessage());
+            log.info("CustomerServiceImpl:authenticateCustomer execution started");
+            authentication = authService.authentication(request.getEmail(), request.getPassword());
+        } catch (BadCredentialsException | InvalidRequestException e) {
+            log.error("Exception occurred while during customer authentication; REASON Bad Credential, email: {}, Exception message: {}, Exception name: {}"
+                    , request.getEmail(), e.getMessage(), e.getClass().getName());
             throw new InvalidRequestException("Invalid email or password");
         } catch (RuntimeException e) {
-            log.error("Error in authentication: {}", e.getMessage());
-            throw e;
+            log.error("Exception occurred while during customer authentication; email: {}, Exception message: {}, Exception name; {}",
+                    request.getEmail(), e.getMessage(), e.getClass().getName());
+            throw new CustomerServiceException("Exception occurred while during customer authentication; email: " + request.getEmail());
         }
+        log.info("AuthCustomerServiceImpl:authenticateCustomer execution ended");
+        return authenticationProcess(authentication);
     }
 
     @Override
     public RegisterResponse register(RegisterRequest request) {
-        log.info("CustomerServiceImpl:register execution started");
+        LoginResponse loginResponse;
         try {
+            log.info("CustomerServiceImpl:register execution started");
             if (customerRepo.existsCustomerByEmail(request.getEmail())) {
                 log.warn("Email already exists, email: {}", request.getEmail());
                 throw new ExistsItemException();
             }
-
             Customer customer = CustomerMapper.convertRegisterrequestToCustomer(request);
             customer.setPassword(authService
                     .getPasswordEncoder()
@@ -63,30 +68,37 @@ public class AuthCustomerServiceImpl implements AuthCustomerService {
             customerRepo.save(customer);
 
             Authentication authentication = authService.authentication(request.getEmail(), request.getPassword());
-            LoginResponse loginResponse = authenticationProcess(authentication);
-            return new RegisterResponse(loginResponse.getEmail(), loginResponse.getToken(), loginResponse.getRoles());
+            loginResponse = authenticationProcess(authentication);
 
         } catch (ExistsItemException e) {
             log.error("Error in registration {}", e.getMessage());
             throw new ExistsItemException("Email already exists, email: " + request.getEmail());
+        } catch (Exception e) {
+            log.error("Exception occurred while employee register email: {}. Exception message: {}", request.getEmail(), e.getMessage());
+            throw new CustomerServiceException("Exception occurred while register processing, email: " + request.getEmail());
         }
+        log.info("AuthCustomerServiceImpl:register execution ended");
+        return new RegisterResponse(loginResponse.getEmail(), loginResponse.getToken(), loginResponse.getRoles());
     }
 
     @Override
     public LoginResponse authenticationProcess(Authentication authentication) {
-        log.info("CustomerServiceImpl:authenticationProcess execution started");
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String jwtToken = authService.generateJwtToken(userDetails);
-        List<String> roles = userDetails
-                .getAuthorities()
-                .stream()
-                .map(Objects::toString)
-                .toList();
+        try {
+            log.info("AuthCustomerServiceImpl:authenticationProcess execution started");
 
-        return new LoginResponse(
-                userDetails.getUsername(),
-                jwtToken,
-                roles
-        );
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String jwtToken = authService.generateJwtToken(userDetails);
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(Objects::toString)
+                    .toList();
+
+            log.info("AuthCustomerServiceImpl:authenticationProcess execution ended");
+            return new LoginResponse(userDetails.getUsername(), jwtToken, roles);
+        } catch (Exception e) {
+            log.error("Exception occurred during customer authentication processing; email: {}, Exception message: {}",
+                    ((UserDetails) authentication.getPrincipal()).getUsername(), e.getMessage());
+            throw new CustomerServiceException("Exception occurred during customer authentication processing; email: " +
+                    ((UserDetails) authentication.getPrincipal()).getUsername());
+        }
     }
 }

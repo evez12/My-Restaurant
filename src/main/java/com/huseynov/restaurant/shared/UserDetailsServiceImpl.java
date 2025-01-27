@@ -1,7 +1,7 @@
 package com.huseynov.restaurant.shared;
 
-import com.huseynov.restaurant.customer.Customer;
-import com.huseynov.restaurant.customer.MyCustomerRepository;
+import com.huseynov.restaurant.customer.data.Customer;
+import com.huseynov.restaurant.customer.data.MyCustomerRepository;
 import com.huseynov.restaurant.employee.data.Employee;
 import com.huseynov.restaurant.employee.data.EmployeeRepository;
 import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserOfSendingRequest myUser;
 
     @Override
-    public UserDetails loadUserByUsername(String email) {
+    public UserDetails loadUserByUsername(String email) throws InvalidRequestException, CustomNotFoundException {
         log.info("UserDetailsServiceImpl::loadUserByUsername called with: {}", email);
         try {
             if (email.endsWith("@restaurant.com")) {
@@ -42,8 +42,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 return getCustomer(email);
             }
         } catch (CustomNotFoundException | InvalidRequestException e) {
-            log.warn("Not found customer with email: {}, message: {}", email,e.getMessage());
-            throw e;
+            log.warn("Not found customer with email: {}, message: {}, Exception name: {}", email, e.getMessage(), e.getClass().getName());
+            throw new InvalidRequestException(e.getMessage());
         }
 
     }

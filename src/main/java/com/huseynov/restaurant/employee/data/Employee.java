@@ -98,7 +98,8 @@ public class Employee {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", employeeDetail"+employeeDetail + '\''+
+                ", employeeDetail='" + employeeDetail + '\'' +
+                ", roles='" + roles + '\'' +
                 '}';
     }
 }
