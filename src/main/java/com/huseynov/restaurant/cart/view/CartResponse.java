@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.cart;
+package com.huseynov.restaurant.cart.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

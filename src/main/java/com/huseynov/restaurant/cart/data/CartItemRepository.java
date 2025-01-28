@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.cart;
+package com.huseynov.restaurant.cart.data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll()
 
                         .requestMatchers("/api/v1/carts/**").hasAuthority(ROLE_CUSTOMER)
+                        .requestMatchers("/api/v1/orders/**").hasAuthority(ROLE_CUSTOMER)
                         .requestMatchers("/api/v1/customer/**").hasAuthority(ROLE_CUSTOMER)
 
                         .requestMatchers("/api/v1/employee/**").hasAuthority(ROLE_EMPLOYEE)

@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,7 +33,9 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(name = "employee_name")
     String name;
+    @Column(name = "employee_surname")
     String surname;
 
     @NaturalId
@@ -47,7 +49,7 @@ public class Employee {
             cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}
     )
     @JoinTable(
-            name = "employee_role",
+            name = "employee_roles",
             joinColumns = @JoinColumn(name = "employee_id"),
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )

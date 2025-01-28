@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.cart;
+package com.huseynov.restaurant.cart.view;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

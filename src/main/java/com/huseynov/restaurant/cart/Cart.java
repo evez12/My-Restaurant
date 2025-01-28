@@ -1,6 +1,6 @@
 package com.huseynov.restaurant.cart;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.huseynov.restaurant.cart.data.CartItem;
 import com.huseynov.restaurant.customer.data.Customer;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,7 +18,6 @@ import java.util.Set;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "cart")
 @NamedEntityGraph(name = "cart-with-items-and-product",
         attributeNodes = @NamedAttributeNode(
                 value = "items", subgraph = "items-with-product"
@@ -34,6 +33,7 @@ import java.util.Set;
                 )
         }
 )
+@Table(name = "carts")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,6 @@ public class Cart {
     @Column(name = "total_amount")
     BigDecimal totalAmount = BigDecimal.ZERO;
 
-    @JsonIgnore
     @OneToOne(
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})

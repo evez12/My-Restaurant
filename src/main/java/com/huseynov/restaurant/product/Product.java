@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 @NamedEntityGraph(name = "product-with-category-and-images",
         attributeNodes = {
                 @NamedAttributeNode("category"),
@@ -33,6 +33,7 @@ public class Product {
     Long id;
 
     @NaturalId
+    @Column(name = "product_name")
     String name;
 
     String description;

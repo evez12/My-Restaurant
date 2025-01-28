@@ -1,5 +1,7 @@
-package com.huseynov.restaurant.cart;
+package com.huseynov.restaurant.cart.view;
 
+import com.huseynov.restaurant.cart.CartItemService;
+import com.huseynov.restaurant.cart.CartService;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -23,9 +25,6 @@ public class CartItemController {
                                                        int quantity) {
 
         log.info("CartItemController::addItemToCart, productId: {}, quantity: {}", productId, quantity);
-
-        // if the customer who sent request is not the owner of the cart(for exists cart)
-        cartService.checkCustomerForCart();
 
         CartDTO cart = cartItemService.addItemToCart(productId, quantity);
         ApiResponse<CartDTO> response = new ApiResponse<>("Item successfully added to cart", cart);

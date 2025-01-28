@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "employee_detail")
+@Table(name = "employee_details")
 public class EmployeeDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

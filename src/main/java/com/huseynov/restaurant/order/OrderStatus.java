@@ -3,9 +3,9 @@ package com.huseynov.restaurant.order;
 public enum OrderStatus {
     PENDING,
     PROCESSING,
+    CANCELLED,
     FAILED,
     SHIPPED,
-    CANCELLED,
     DELIVERED,
     COMPLETED,
     RETURNED,

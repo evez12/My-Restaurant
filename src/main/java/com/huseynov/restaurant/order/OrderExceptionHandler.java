@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.employee;
+package com.huseynov.restaurant.order;
 
 import com.huseynov.restaurant.shared.dto.error.ApiError;
 import lombok.extern.slf4j.Slf4j;
@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @Slf4j
-class EmployeeExceptionHandler {
+public class OrderExceptionHandler {
 
-    @ExceptionHandler(EmployeeServiceException.class)
+    @ExceptionHandler(OrderServiceException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    ApiError handleEmployeeServiceException(EmployeeServiceException exception) {
-        log.error("EmployeeServiceException occurred: {}", exception.getMessage());
-        return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Employee service error", exception);
+    public ApiError handleOrderServiceException(OrderServiceException e) {
+        log.error("OrderServiceException occurred: {}", e.getMessage());
+        return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Order service error", e);
     }
-
 }

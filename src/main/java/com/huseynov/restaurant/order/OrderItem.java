@@ -15,7 +15,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "order_item")
+
+@Table(name = "order_items")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +34,11 @@ public class OrderItem {
             CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "order_id")
     Order order;
+
+    public OrderItem(Order order, BigDecimal price, Product product, int quantity) {
+        this.order = order;
+        this.price = price;
+        this.product = product;
+        this.quantity = quantity;
+    }
 }

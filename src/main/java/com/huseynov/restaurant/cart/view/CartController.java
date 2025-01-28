@@ -1,5 +1,6 @@
-package com.huseynov.restaurant.cart;
+package com.huseynov.restaurant.cart.view;
 
+import com.huseynov.restaurant.cart.CartService;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,23 +22,25 @@ public class CartController {
 
     @GetMapping("")
     public ResponseEntity<ApiResponse<CartDTO>> getCart() {
-        log.info("CartController::getCart");
+        log.info("CartController::getCart execution started");
 
         cartService.checkCustomerForCart();  // Customer of cart check
-
+        log.info("CartController::getCart getCart method started");
         CartDTO cart = modelMapper.map(cartService.getCart(), CartDTO.class);
         ApiResponse<CartDTO> response = new ApiResponse<>("Successfully get cart", cart);
+        log.info("CartController::getCart execution ended, response: {}", response);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("")
     public ResponseEntity<ApiResponse<CartDTO>> deleteCart() {
-        log.info("CartController::deleteCart");
+        log.info("CartController::deleteCart execution started");
 
         cartService.checkCustomerForCart();
 
-        cartService.clearCart();
+        cartService.deleteCart();
         ApiResponse<CartDTO> response = new ApiResponse<>("Successfully deleted cart", null);
+        log.info("CartController::deleteCart execution ended, response: {}", response);
         return ResponseEntity.ok(response);
     }
 

@@ -1,5 +1,6 @@
-package com.huseynov.restaurant.cart;
+package com.huseynov.restaurant.cart.data;
 
+import com.huseynov.restaurant.cart.Cart;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     @Query("SELECT c.cartId FROM Cart c WHERE c.customer.id = :customerId")
     Optional<Long> findCartIdByCustomerId(Long customerId);
+
+    @Query("Select c FROM Cart c join fetch c.items where c.customer.id=:cutomerId")
+    Optional<Cart> findCartByCustomerId(Long customerId);
 
 }

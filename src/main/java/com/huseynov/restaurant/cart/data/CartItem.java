@@ -1,5 +1,6 @@
-package com.huseynov.restaurant.cart;
+package com.huseynov.restaurant.cart.data;
 
+import com.huseynov.restaurant.cart.Cart;
 import com.huseynov.restaurant.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -15,7 +16,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "cart_item")
+@Table(name = "cart_items")
 public class CartItem {
 
     @Id

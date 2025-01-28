@@ -1,6 +1,5 @@
 package com.huseynov.restaurant.customer.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.huseynov.restaurant.cart.Cart;
 import com.huseynov.restaurant.order.Order;
 import com.huseynov.restaurant.reservation.Reservation;
@@ -15,7 +14,6 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.NaturalId;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,7 +21,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "customer")
+@Table(name = "customers")
 @NamedEntityGraph(
         name = "customer-role",
         attributeNodes = @NamedAttributeNode("roles")
@@ -33,7 +31,9 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(name = "customer_name")
     String name;
+    @Column(name = "customer_surname")
     String surname;
 
     @NaturalId()
@@ -52,13 +52,12 @@ public class Customer {
             CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.REFRESH, CascadeType.DETACH
     })
-    @JoinTable(name = "customer_role",
+    @JoinTable(name = "customer_roles",
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     Set<Role> roles; // Customer's role is "CUSTOMER" by default
 
-    @JsonIgnore
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
@@ -73,7 +72,7 @@ public class Customer {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    List<Order> orders;
+    Set<Order> orders;
 
     public Customer(Long id, String email, String password, Set<Role> roles) {
         this(id, email, password);
