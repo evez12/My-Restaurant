@@ -1,5 +1,8 @@
 package com.huseynov.restaurant.product;
 
+import com.huseynov.restaurant.product.data.Category;
+import com.huseynov.restaurant.product.data.CategoryRepository;
+import com.huseynov.restaurant.product.view.CategoryDTO;
 import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
 import com.huseynov.restaurant.shared.exception.ExistsItemException;
 import lombok.RequiredArgsConstructor;

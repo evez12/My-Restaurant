@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
@@ -38,28 +37,29 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
-                request
-                        .requestMatchers("/api/v1/hello/**").permitAll()
-
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll()
-
-                        .requestMatchers("/api/v1/carts/**").hasAuthority(ROLE_CUSTOMER)
-                        .requestMatchers("/api/v1/orders/**").hasAuthority(ROLE_CUSTOMER)
-                        .requestMatchers("/api/v1/customer/**").hasAuthority(ROLE_CUSTOMER)
-
-                        .requestMatchers("/api/v1/employee/**").hasAuthority(ROLE_EMPLOYEE)
-
-                        .requestMatchers("/api/v1/manager/**").hasAuthority(ROLE_MANAGER)
-                        .requestMatchers("/api/v1/categories/**").hasAuthority(ROLE_MANAGER)
-                        .requestMatchers("/api/v1/products/**").hasAuthority(ROLE_MANAGER)
-
-                        .requestMatchers(HttpMethod.GET, "/api/v1/admin/employees/**").hasAuthority(ROLE_MANAGER)
-                        .requestMatchers(HttpMethod.GET, "/api/v1/admin/customers/**").hasAuthority(ROLE_MANAGER)
-
-                        .requestMatchers("/**").hasAuthority(ROLE_ADMIN)   // this should be the last line
-                        .anyRequest().authenticated() // any other request should be authenticated
+                        request
+                                .anyRequest().permitAll()
+//                        .requestMatchers("/api/v1/hello/**").permitAll()
+//
+//                        .requestMatchers("/api/v1/auth/**").permitAll()
+//
+//                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll()
+//
+//                        .requestMatchers("/api/v1/carts/**").hasAuthority(ROLE_CUSTOMER)
+//                        .requestMatchers("/api/v1/orders/**").hasAuthority(ROLE_CUSTOMER)
+//                        .requestMatchers("/api/v1/customer/**").hasAuthority(ROLE_CUSTOMER)
+//
+//                        .requestMatchers("/api/v1/employee/**").hasAuthority(ROLE_EMPLOYEE)
+//
+//                        .requestMatchers("/api/v1/manager/**").hasAuthority(ROLE_MANAGER)
+//                        .requestMatchers("/api/v1/categories/**").hasAuthority(ROLE_MANAGER)
+//                        .requestMatchers("/api/v1/products/**").hasAuthority(ROLE_MANAGER)
+//
+//                        .requestMatchers(HttpMethod.GET, "/api/v1/admin/employees/**").hasAuthority(ROLE_MANAGER)
+//                        .requestMatchers(HttpMethod.GET, "/api/v1/admin/customers/**").hasAuthority(ROLE_MANAGER)
+//
+//                        .requestMatchers("/**").hasAuthority(ROLE_ADMIN)   // this should be the last line
+//                        .anyRequest().authenticated() // any other request should be authenticated
         );
 
         httpSecurity.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.product;
+package com.huseynov.restaurant.product.data;
 
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -23,6 +23,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findProductById(Long id);
 
     List<Product> findProductsByCategory(Category category);
+
+    List<Product> findProductsByNameStartsWith(String name);
+
+    @EntityGraph(value = "product-with-category", type = EntityGraph.EntityGraphType.FETCH)
+    List<Product> findProductsByNameStartsWithOrCategory_Name(String productName, String categoryName);
 
     boolean existsProductByName(String name);
 }

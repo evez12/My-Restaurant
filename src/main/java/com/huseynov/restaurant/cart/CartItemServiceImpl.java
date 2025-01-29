@@ -3,7 +3,7 @@ package com.huseynov.restaurant.cart;
 import com.huseynov.restaurant.cart.data.CartItem;
 import com.huseynov.restaurant.cart.data.CartItemRepository;
 import com.huseynov.restaurant.cart.view.CartDTO;
-import com.huseynov.restaurant.product.Product;
+import com.huseynov.restaurant.product.data.Product;
 import com.huseynov.restaurant.product.ProductService;
 import com.huseynov.restaurant.shared.exception.CustomNotFoundException;
 import lombok.RequiredArgsConstructor;

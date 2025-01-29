@@ -64,6 +64,4 @@ public class CartItemController {
         log.info("CartItemController:removeItemFromCart response: {}", response);
         return ResponseEntity.ok(response);
     }
-
-
 }

@@ -1,5 +1,6 @@
-package com.huseynov.restaurant.product;
+package com.huseynov.restaurant.product.view;
 
+import com.huseynov.restaurant.product.CategoryService;
 import com.huseynov.restaurant.shared.dto.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

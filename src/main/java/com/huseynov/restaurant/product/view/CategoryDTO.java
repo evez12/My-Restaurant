@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.product;
+package com.huseynov.restaurant.product.view;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotBlank;

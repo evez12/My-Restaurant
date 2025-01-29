@@ -128,7 +128,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void deleteOrder() {
+    public void deleteOrder(Long id) {
         // TODO: Delete cart implement
     }
 

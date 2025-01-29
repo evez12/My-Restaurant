@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.product;
+package com.huseynov.restaurant.product.data;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -14,7 +14,7 @@ import java.sql.Blob;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "image")
+@Table(name = "images")
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

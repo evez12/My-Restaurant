@@ -1,4 +1,4 @@
-package com.huseynov.restaurant.product;
+package com.huseynov.restaurant.product.data;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

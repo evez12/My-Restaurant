@@ -13,8 +13,7 @@ public interface OrderService {
 
     OrderDTO cancelOrder(Long id);
 
-    void deleteOrder();
-
+    void deleteOrder(Long id);
 
     void checkCustomerForOrder(Long id);
 }

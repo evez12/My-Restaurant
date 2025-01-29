@@ -1,7 +1,7 @@
 package com.huseynov.restaurant.cart.data;
 
 import com.huseynov.restaurant.cart.Cart;
-import com.huseynov.restaurant.product.Product;
+import com.huseynov.restaurant.product.data.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

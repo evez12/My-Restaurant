@@ -14,15 +14,23 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-// This class is responsible for routing the requests to the appropriate service(EmployeeService or CustomerService)
-// based on the email address of the user.
-// If the email address ends with @restaurant.com,
-// then the request is routed to the EmployeeService,
+/*
+ * This class is responsible for routing the requests to the appropriate service (EmployeeService or CustomerService)
+ * based on the email address of the user. If the email address ends with @restaurant.com,
+ * then the request is routed to the EmployeeService, otherwise to the CustomerService.
+ */
 public class RouterService {
     private final AuthEmployeeService employeeService;
     private final AuthCustomerService authCustomerService;
 
-
+    /**
+     * Authenticates the user based on the email address.
+     * If the email ends with @restaurant.com, it routes the request to the EmployeeService.
+     * Otherwise, it routes the request to the CustomerService.
+     *
+     * @param loginRequest the login request containing the user's email and password
+     * @return LoginResponse containing the authentication result
+     */
     public LoginResponse login(LoginRequest loginRequest) {
         log.info("RouterService::login request");
         // Check if the email is an employee email

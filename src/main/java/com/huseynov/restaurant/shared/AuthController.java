@@ -11,17 +11,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController()
-@CrossOrigin()
+@RestController
+@CrossOrigin
 @RequiredArgsConstructor
-@Slf4j()
+@Slf4j
 @RequestMapping("${api.prefix}/auth")
 public class AuthController {
     private final RouterService routerService;
 
     @PostMapping("/sign-in")
     ResponseEntity<ApiResponse<LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
-        log.info("AuthController::login request body {}", request);
+        log.info("AuthController::login execution started, request: {}", request);
 
         LoginResponse loginResponse = routerService.login(request);
         ApiResponse<LoginResponse> response = ApiResponse.<LoginResponse>builder()
@@ -29,13 +29,13 @@ public class AuthController {
                 .results(loginResponse)
                 .build();
 
-        log.info("AuthController::login response {}", loginResponse);
+        log.info("AuthController::login execution ended, response: {}", loginResponse);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/sign-up")
     ResponseEntity<ApiResponse<RegisterResponse>> register(@Valid @RequestBody RegisterRequest request) {
-        log.info("AuthController::register request body {}", request);
+        log.info("AuthController::register execution started, request: {}", request);
 
         RegisterResponse registerResponse = routerService.register(request);
         ApiResponse<RegisterResponse> response = ApiResponse.<RegisterResponse>builder()
@@ -43,7 +43,7 @@ public class AuthController {
                 .results(registerResponse)
                 .build();
 
-        log.info("AuthController::register response {}", registerResponse);
+        log.info("AuthController::register execution ended, response: {}", registerResponse);
         return ResponseEntity.ok(response);
     }
 
